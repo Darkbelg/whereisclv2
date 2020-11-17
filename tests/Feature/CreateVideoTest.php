@@ -25,6 +25,6 @@ class CreateVideoTest extends TestCase
         $this->withoutExceptionHandling();
         $response = $this->get('video/id/JeGhUESd_1o');
 
-        $response->assertSee('JeGhUESd_1o');
+        $response->assertSee('CL +5 STAR+ Official Video');
     }
 }
