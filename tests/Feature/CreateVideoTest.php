@@ -2,12 +2,16 @@
 
 namespace Tests\Feature;
 
+use GuzzleHttp\Promise\Create;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class CreateVideoTest extends TestCase
 {
+
+    use RefreshDatabase;
+
     /**
      * A basic feature test example.
      *
@@ -26,5 +30,13 @@ class CreateVideoTest extends TestCase
         $response = $this->get('video/id/JeGhUESd_1o');
 
         $response->assertSee('CL +5 STAR+ Official Video');
+    }
+
+    public function testCreateAddNewVideo()
+    {
+        $video = factory('App\Models\Video')->create();
+
+
+        
     }
 }

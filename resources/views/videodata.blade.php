@@ -1,5 +1,5 @@
 <script>
-    var app = @json($response, JSON_PRETTY_PRINT);
+    console.log(@json($response, JSON_PRETTY_PRINT));
 </script>
 
 {!! $response["items"][0]["player"]["embedHtml"] !!}
