@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VideoFactory extends Factory
@@ -24,16 +25,15 @@ class VideoFactory extends Factory
         $title = $this->faker->sentence;
 
         return [
-            'title' =>,
-            'description' =>,
-            'tags' =>$this->faker->id,
-            'thumbnails' =>$this->faker->id,
-            'channelId' => $this->faker->id,
-            'channelTitle' =>,
-            'commentCount' =>,
-            'dislikeCount' =>,
-            'likeCount' =>,
-            'viewCount' =>,
+            'id' => $this->faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+            'channel_id' => $this->faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
+            'published_at' => Carbon::now()->subWeek(),
+            'comments' =>  $this->faker->randomNumber(),
+            'dislikes' => $this->faker->randomNumber(),
+            'likes' => $this->faker->randomNumber(),
+            'views' => $this->faker->randomNumber(),
         ];
     }
 }

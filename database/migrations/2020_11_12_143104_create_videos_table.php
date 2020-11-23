@@ -14,9 +14,16 @@ class CreateVideosTable extends Migration
     public function up()
     {
         Schema::create('videos', function (Blueprint $table) {
-            $table->id();
-            $table->json('data')->nullable();
+            $table->string('id')->unique;
+            $table->string('channel_id');
             $table->timestamps();
+            $table->timestamp('published_at')->nullable();
+            $table->string('title');
+            $table->text('description');
+            $table->unsignedBigInteger('comments');
+            $table->unsignedBigInteger('dislikes');
+            $table->unsignedBigInteger('likes');
+            $table->unsignedBigInteger('views');
         });
     }
 
