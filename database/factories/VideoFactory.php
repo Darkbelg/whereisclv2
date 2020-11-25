@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Channel;
+use App\Models\Thumbnail;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,9 +25,15 @@ class VideoFactory extends Factory
     public function definition()
     {
         $title = $this->faker->sentence;
+        $id = $this->faker->regexify('[A-Z0-9._+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}');
+        
+        $sizes = ["default","high","maxres","medium","standard"];
+        foreach ($sizes as $size) {
+            Thumbnail::factory()->create(['video_id' => $id,'size' => $size]);
+        }
 
         return [
-            'id' => $this->faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
+            'id' => $id,
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'channel_id' => function (){

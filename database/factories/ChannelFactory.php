@@ -22,7 +22,7 @@ class ChannelFactory extends Factory
     public function definition()
     {
         return [
-            'id' => $this->faker->regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
+            'id' => $this->faker->regexify('[A-Z0-9._+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'),
             'title' => $this->faker->sentence,
         ];
     }
