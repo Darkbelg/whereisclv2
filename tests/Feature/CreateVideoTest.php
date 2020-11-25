@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Video;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -32,10 +33,13 @@ class CreateVideoTest extends TestCase
         $response->assertSee('CL +5 STAR+ Official Video');
     }
 
-    public function testCreateAddNewVideo()
+    public function testEveryVideoHasAChannel()
     {
-        $video = factory('App\Models\Video')->create();
+        $video = Video::factory()->create();
 
+        $channelId = $video->toArray()["channel_id"];
+        
+        $this->assertEquals(0,$channelId);
 
         
     }
