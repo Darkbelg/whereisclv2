@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,10 +42,15 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        //dd('test');
         request()->validate([
-            'title' => 'required'
+            'title' => 'required|max:255',
+            'date' => 'required|date',
+            'location' => 'max:255',
+            'latitude' => 'required|between:-85,85',
+            'longitude' => 'required|between:-180,180'
         ]);
-        
+
         $event = Event::create([
             'title' => request('title'),
             'date' => request('date'),
