@@ -24,9 +24,8 @@ class CreateEventTest extends TestCase
 
     public function test_an_authenticated_user_can_create_new_event()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-
+        $this->signIn();
+        
         //person has to be logged in to create a event
         //We make a post call to a certain endpoint
         $event = Event::factory()->make();
@@ -37,6 +36,22 @@ class CreateEventTest extends TestCase
         $this->get($response->headers->get('Location'))
         ->assertSee($event->title)
         ->assertSee($event->location);
+    }
+
+    public function test_an_authenticated_user_can_update_a_event(){
+
+
+    }
+
+    public function test_an_authenticated_user_can_delete_a_event()
+    {
+        $this->signIn();
+
+        $event = Event::factory()->create();
+
+        $this->delete('/events/' . $event->id);
+
+        $this->assertEquals(0, Event::count());
     }
 
 }
