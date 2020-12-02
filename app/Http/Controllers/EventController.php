@@ -42,7 +42,6 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //dd('test');
         request()->validate([
             'title' => 'required|max:255',
             'date' => 'required|date',
@@ -91,9 +90,25 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Event $event)
     {
-        //
+        request()->validate([
+            'title' => 'required|max:255',
+            'date' => 'required|date',
+            'location' => 'max:255',
+            'latitude' => 'required|between:-85,85',
+            'longitude' => 'required|between:-180,180'
+        ]);
+
+        $event->update([
+            'title' => request('title'),
+            'date' => request('date'),
+            'location' => request('location'),
+            'latitude' => request('latitude'),
+            'longitude' => request('longitude')
+        ]);
+
+        return redirect('/events/' . $event->id);
     }
 
     /**

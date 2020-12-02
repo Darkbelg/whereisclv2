@@ -39,8 +39,22 @@ class CreateEventTest extends TestCase
     }
 
     public function test_an_authenticated_user_can_update_a_event(){
+        
+        $this->signIn()->withoutExceptionHandling();
 
+        $originalEvent = Event::factory()->create();
 
+        $updatedEvent = Event::factory()->make(['id' => $originalEvent->id]);
+
+        $this->patch("/events/{$originalEvent->id}",$updatedEvent->toArray())->assertRedirect('/events/' . $originalEvent->id);
+
+        $this->assertDatabaseHas('events', 
+        [
+            "id" =>  $originalEvent->id,
+            "title" => $updatedEvent->title,
+            "location" => $updatedEvent->location
+        ]);
+        
     }
 
     public function test_an_authenticated_user_can_delete_a_event()
@@ -49,7 +63,7 @@ class CreateEventTest extends TestCase
 
         $event = Event::factory()->create();
 
-        $this->delete('/events/' . $event->id);
+        $this->delete("/events/{$event->id}");
 
         $this->assertEquals(0, Event::count());
     }
