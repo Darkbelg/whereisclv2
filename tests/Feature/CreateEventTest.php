@@ -22,7 +22,7 @@ class CreateEventTest extends TestCase
             ->assertRedirect('/login');
     }
 
-    public function test_an_authenticated_user_can_create_new_event()
+    public function test_an_user_can_create_new_event()
     {
         $this->signIn();
         
@@ -38,8 +38,24 @@ class CreateEventTest extends TestCase
         ->assertSee($event->location);
     }
 
-    public function test_an_authenticated_user_can_update_a_event(){
-        
+    public function test_an_guest_can_not_update_a_event(){
+        $event = Event::factory()->create();
+
+        $this->patch("/events/{$event->id}")
+            ->assertRedirect('login');
+    }
+
+    public function test_a_empty_patch_does_not_update()
+    {
+        $event = Event::factory()->create();
+
+        $response = $this->signIn()
+        ->patch("/events/{$event->id}")
+        ->assertSessionHasErrors(('title'));
+    }
+
+    public function test_an_user_can_update_a_event(){
+
         $this->signIn()->withoutExceptionHandling();
 
         $originalEvent = Event::factory()->create();
@@ -56,8 +72,21 @@ class CreateEventTest extends TestCase
         ]);
         
     }
+    
+    public function test_an_guest_can_not_delete_a_event(){
+        /*
+        $reply = create('App\Reply');
 
-    public function test_an_authenticated_user_can_delete_a_event()
+        $this->patch("/replies/{$reply->id}")
+            ->assertRedirect('login');
+
+        // $this->withoutExceptionHandling();
+        $this->signIn()
+            ->patch("/replies/{$reply->id}")
+            ->assertStatus(403);*/
+    }
+
+    public function test_an_user_can_delete_a_event()
     {
         $this->signIn();
 
