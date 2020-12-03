@@ -1,6 +1,8 @@
-<div>
-    <h1>{{ $event->title }}<span>{{ $event->id }}</span></h1>
-    <p>{{ $event->date }}</p>
-    <p>{{ $event->location }}</p>
-    <p>{{ $event->latitude }},{{ $event->longitude }}</p>
-</div>
+<x-guest-layout>
+    <div class="bg-gray-100">
+        <div class="w-1/2 m-auto">
+            <h1 class="text-6xl p-2">#WhereisCL</h1>
+            <x-event :event="$event"></x-event>
+        </div>
+    </div>
+</x-guest-layout>

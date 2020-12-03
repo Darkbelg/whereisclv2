@@ -1,10 +1,10 @@
-<div>
-    @foreach ($events as $event)
-        <div>
-            <h1>{{ $event->title }}<span>{{ $event->id }}</span></h1>
-            <p>{{ $event->date }}</p>
-            <p>{{ $event->location }}</p>
-            <p>{{ $event->latitude }},{{ $event->longitude }}</p>
+<x-guest-layout>
+    <div class="">
+        <div class="w-1/2 m-auto">
+            <h1 class="text-6xl p-2">#WhereisCL</h1>
+            @foreach ($events as $event)
+                <x-event :event="$event"></x-event>
+            @endforeach
         </div>
-    @endforeach
-</div>
+    </div>
+</x-guest-layout>
