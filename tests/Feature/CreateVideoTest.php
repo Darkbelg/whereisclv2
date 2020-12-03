@@ -282,6 +282,8 @@ JSONDATA;
 
     public function testCreateVideo()
     {
+        $this->fail("TODO");
+
         //We make a post call to a certain endpoint
         $video = Video::factory()->make();
 

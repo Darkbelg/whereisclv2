@@ -74,16 +74,11 @@ class CreateEventTest extends TestCase
     }
     
     public function test_an_guest_can_not_delete_a_event(){
-        /*
-        $reply = create('App\Reply');
+        
+        $event = Event::factory()->create();
 
-        $this->patch("/replies/{$reply->id}")
+        $this->delete("/events/{$event->id}")
             ->assertRedirect('login');
-
-        // $this->withoutExceptionHandling();
-        $this->signIn()
-            ->patch("/replies/{$reply->id}")
-            ->assertStatus(403);*/
     }
 
     public function test_an_user_can_delete_a_event()
