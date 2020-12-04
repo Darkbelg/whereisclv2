@@ -11,4 +11,17 @@ class Channel extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
+
+    protected $fillable = [
+        'id',
+        'title'
+    ];
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function videos()
+    {
+        return $this->hasMany('App\Models\Video');
+    }
 }

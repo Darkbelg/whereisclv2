@@ -16,4 +16,12 @@ class Event extends Model
         'latitude',
         'longitude'
     ];
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function videos()
+    {
+        return $this->belongsToMany('App\Models\Video','events_videos');
+    }
 }

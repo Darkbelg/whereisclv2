@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Channel;
+use App\Models\Event;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Video;
 use Google_Client;
@@ -51,7 +54,8 @@ class VideoController extends Controller
         $response = $service->videos->listVideos('contentDetails,id,liveStreamingDetails,localizations,player,recordingDetails,snippet,statistics,status,topicDetails', $queryParams);
 
 
-        return view('videodata',['response' => $response]);
+        return $response;
+        //return view('videodata',['response' => $response]);
     }
 
 
@@ -88,9 +92,34 @@ class VideoController extends Controller
             'event' => 'required'
         ]);
 
+        $event = Event::find(request('event'));
+        
         $videoMetaData = $this->getVideoMetaDataById(request('youtube_id'));
+        $tags = $videoMetaData["items"][0]["snippet"]["tags"];
 
-        dd("test");
+        $channel = Channel::create([
+            'id' => 'afsdfdsf',
+            'title' => 'cl'
+        ]);
+        
+        $video = $channel->videos()->create([
+            "id" => request('youtube_id'),
+            "title" => "test",
+            "description" => "test",
+            "comments" => "1",
+            "dislikes" => "1",
+            "likes" => "1",
+            "views" => "1"
+            ]);
+
+        $event->videos()->attach($video->id);
+
+        foreach ($tags as $tag ) {
+            $video->tags()->create([
+                "tag" => $tag
+            ]);
+        }
+        dd($video);
     }
 
     /**
@@ -137,4 +166,5 @@ class VideoController extends Controller
     {
         
     }
+
 }

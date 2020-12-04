@@ -16,6 +16,8 @@ class CreateTagsVideosTable extends Migration
         Schema::create('tags_videos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->integer('tag_id');
+            $table->integer('video_id');
         });
     }
 

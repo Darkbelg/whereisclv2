@@ -11,4 +11,31 @@ class Video extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
+
+    protected $fillable = [
+        'id',
+        'title',
+        'channel_id',
+        'description',
+        'comments',
+        'dislikes',
+        'likes',
+        'views'
+    ];
+
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Models\Tag','tags_videos');
+    }
+
+    public function channel()
+    {
+        return $this->belongsTo('App\Models\Channel');
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany('App\Models\Event','events_videos');
+    }
 }
