@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Channel;
+use App\Models\Event;
 use App\Models\Video;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -282,16 +283,19 @@ JSONDATA;
 
     public function testCreateVideo()
     {
-        $this->fail("TODO");
+        $this->signIn();
 
-        //We make a post call to a certain endpoint
-        $video = Video::factory()->make();
+        $event = Event::factory()->create();
+
+        $videoId = "JeGhUESd_1o";
 
         $response = $this->withoutExceptionHandling()
-        ->post('/video',$video);
+        ->post('/videos',["youtube_id" => $videoId,"event" => $event->id]);
 
+        /*
         $this->get($response->headers->get('Location'))
         ->assertSee($video->title)
         ->assertSee($video->description);
+        */
     }
 }

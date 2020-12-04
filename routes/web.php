@@ -20,6 +20,8 @@ Route::get('/', function () {
 });
 
 Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);
+Route::resource('videos', VideoController::class);
+
 Route::resource('events', EventController::class);
 
 Route::get('/dashboard', function () {
