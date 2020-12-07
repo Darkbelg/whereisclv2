@@ -18,5 +18,13 @@
                 <x-button class="bg-red-700" type="submit">Delete</x-button>
             </form>
         </div>
-    </div>
+
+        @if ($event->videos)
+        <div class="ml-5">
+            @foreach ($event->videos as $video)
+                <x-video :video="$video"></x-video>
+            @endforeach
+        </div>
+        @endif
+        </div>
 </a>

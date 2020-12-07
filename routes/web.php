@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\VideoController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $events = Event::with('videos')->get();
+    return view('overview',['events' => $events]);
 });
 
 Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);

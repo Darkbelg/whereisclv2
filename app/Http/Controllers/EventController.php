@@ -21,7 +21,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::All();
-        return view('events.index',compact('events'));
+        return view('events.index', ["events" => $events]);
     }
 
     /**
@@ -69,7 +69,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-         return view('events.show', compact('event'));
+        return view('events.show', ["event" => $event]);
     }
 
     /**
@@ -80,7 +80,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        return view('events.update',compact('event'));
+        return view('events.update', ["event" => $event]);
     }
 
     /**

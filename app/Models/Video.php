@@ -12,10 +12,13 @@ class Video extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    protected $with = ['thumbnails', 'channel', 'tags'];
+
     protected $fillable = [
         'id',
         'title',
         'channel_id',
+        'published_at',
         'description',
         'comments',
         'dislikes',
@@ -37,5 +40,10 @@ class Video extends Model
     public function events()
     {
         return $this->belongsToMany('App\Models\Event','events_videos');
+    }
+
+    public function thumbnails()
+    {
+        return $this->hasMany('App\Models\Thumbnail');
     }
 }

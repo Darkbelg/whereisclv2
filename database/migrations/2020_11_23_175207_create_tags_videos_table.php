@@ -17,7 +17,7 @@ class CreateTagsVideosTable extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('tag_id');
-            $table->integer('video_id');
+            $table->string('video_id');
         });
     }
 

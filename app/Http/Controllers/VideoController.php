@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Video;
+use Exception;
 use Google_Client;
 use Google_Service_YouTube;
 use Illuminate\Support\Facades\App;
@@ -25,7 +26,7 @@ class VideoController extends Controller
     public function getVideoMetaDataById($id)
     {
 
-        if (App::environment() == 'testing'){
+        if (App::environment() == 'testing') {
             $youtubeVideoJsonApiData = <<<'JSONDATA'
             {
             "etag": "N_UqmX2GO8Z74w8JBDS27hwe-a4",
@@ -268,7 +269,7 @@ class VideoController extends Controller
             }
             JSONDATA;
 
-            return json_decode($youtubeVideoJsonApiData,true);
+            return json_decode($youtubeVideoJsonApiData, true)["items"][0];
         }
 
         /**
@@ -281,11 +282,11 @@ class VideoController extends Controller
         //     throw new Exception(sprintf('Please run "composer require google/apiclient:~2.0" in "%s"', __DIR__));
         // }
         // require_once __DIR__ . '/vendor/autoload.php';
-        
+
         $client = new Google_Client();
         $client->setApplicationName('test');
         $client->setDeveloperKey('AIzaSyCeRyYeYdU8Y4AkwCO-qka9dLeVBPwJo-Q');
-        
+
         // Define service object for making API requests.
         $service = new Google_Service_YouTube($client);
 
@@ -297,12 +298,12 @@ class VideoController extends Controller
         ];
 
         //dd($queryParams);
-        
+
         //$response = $service->videos->listVideos('contentDetails,fileDetails,id,liveStreamingDetails,localizations,player,processingDetails,recordingDetails,snippet,statistics,status,suggestions,topicDetails', $queryParams);
         $response = $service->videos->listVideos('contentDetails,id,liveStreamingDetails,localizations,player,recordingDetails,snippet,statistics,status,topicDetails', $queryParams);
 
+        return $response["items"][0];
 
-        return $response;
         //return view('videodata',['response' => $response]);
     }
 
@@ -314,7 +315,8 @@ class VideoController extends Controller
      */
     public function index()
     {
-        return view('create');
+        $videos = Video::All();
+        return view("videos.index", ["videos" => $videos]);
     }
 
     /**
@@ -324,7 +326,7 @@ class VideoController extends Controller
      */
     public function create()
     {
-        
+        return view('videos.create', ['events' => Event::all()]);
     }
 
     /**
@@ -341,33 +343,46 @@ class VideoController extends Controller
         ]);
 
         $event = Event::find(request('event'));
-        
-        $videoMetaData = $this->getVideoMetaDataById(request('youtube_id'));
-        $tags = $videoMetaData["items"][0]["snippet"]["tags"];
 
-        $channel = Channel::create([
-            'id' => 'afsdfdsf',
-            'title' => 'cl'
+        $videoMetaData = $this->getVideoMetaDataById(request('youtube_id'));
+        $videoMetaDataSnippet = $videoMetaData["snippet"];
+        $tags = $videoMetaDataSnippet["tags"];
+        $thumbnails = $videoMetaDataSnippet["thumbnails"];
+
+        $channel = Channel::firstOrCreate([
+            'id' => $videoMetaDataSnippet['channelId'],
+            'title' => $videoMetaDataSnippet['channelTitle']
         ]);
-        
+
         $video = $channel->videos()->create([
             "id" => request('youtube_id'),
-            "title" => "test",
-            "description" => "test",
-            "comments" => "1",
-            "dislikes" => "1",
-            "likes" => "1",
-            "views" => "1"
-            ]);
+            "title" => $videoMetaDataSnippet["title"],
+            "description" => $videoMetaDataSnippet["description"],
+            "published_at" => date('Y-m-d h:i:s', strtotime($videoMetaDataSnippet["publishedAt"])),
+            "comments" => $videoMetaData["statistics"]["commentCount"],
+            "dislikes" => $videoMetaData["statistics"]["dislikeCount"],
+            "likes" => $videoMetaData["statistics"]["likeCount"],
+            "views" => $videoMetaData["statistics"]["viewCount"]
+        ]);
 
         $event->videos()->attach($video->id);
 
-        foreach ($tags as $tag ) {
+        foreach ($tags as $tag) {
             $video->tags()->create([
                 "tag" => $tag
             ]);
         }
-        dd($video);
+
+        foreach ($thumbnails as $size => $thumbnail) {
+            $video->thumbnails()->create([
+                'size' => $size,
+                'url' => $thumbnail["url"],
+                'height' => $thumbnail["height"],
+                'width' => $thumbnail["width"]
+            ]);
+        }
+
+        return redirect('/videos/' . $video->id);
     }
 
     /**
@@ -376,9 +391,9 @@ class VideoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Video $event)
+    public function show(Video $video)
     {
-         
+        return view('videos.show', ["video" => $video]);
     }
 
     /**
@@ -389,7 +404,7 @@ class VideoController extends Controller
      */
     public function edit($id)
     {
-        return view('events.update',compact('event'));
+        throw new Exception("Video info can not be updated");
     }
 
     /**
@@ -401,7 +416,7 @@ class VideoController extends Controller
      */
     public function update($id)
     {
-
+        throw new Exception("Video info can not be updated");
     }
 
     /**
@@ -410,9 +425,13 @@ class VideoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Video $video)
     {
-        
-    }
+        $video->tags()->detach();
+        $video->events()->detach();
+        $video->thumbnails()->delete();
+        $video->delete();
 
+        return redirect('/videos');
+    }
 }
