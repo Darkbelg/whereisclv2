@@ -359,15 +359,15 @@ class VideoController extends Controller
             "title" => $videoMetaDataSnippet["title"],
             "description" => $videoMetaDataSnippet["description"],
             "published_at" => date('Y-m-d h:i:s', strtotime($videoMetaDataSnippet["publishedAt"])),
-            "comments" => $videoMetaData["statistics"]["commentCount"],
-            "dislikes" => $videoMetaData["statistics"]["dislikeCount"],
-            "likes" => $videoMetaData["statistics"]["likeCount"],
-            "views" => $videoMetaData["statistics"]["viewCount"]
+            "comments" => $videoMetaData["statistics"]["commentCount"] ?: 0,
+            "dislikes" => $videoMetaData["statistics"]["dislikeCount"] ?: 0,
+            "likes" => $videoMetaData["statistics"]["likeCount"] ?: 0 ,
+            "views" => $videoMetaData["statistics"]["viewCount"] ?: 0
         ]);
 
         $event->videos()->attach($video->id);
 
-        foreach ($tags as $tag) {
+        foreach ((array)$tags as $tag) {
             $video->tags()->create([
                 "tag" => $tag
             ]);

@@ -12,6 +12,7 @@
         <p>Views: {{ $video->views }}</p>
 
         @foreach ($video->thumbnails as $thumbnail)
+            <p class="display-none">{{$thumbnail["size"]}}</p>
             <x-thumbnail :thumbnail=$thumbnail></x-thumbnail>
         @endforeach
 

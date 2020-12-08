@@ -26,6 +26,12 @@ class Video extends Model
         'views'
     ];
 
+    protected $dates=[
+        'created_at',
+        'updated_at',
+        'published_at'
+    ];
+
 
     public function tags()
     {
@@ -45,5 +51,10 @@ class Video extends Model
     public function thumbnails()
     {
         return $this->hasMany('App\Models\Thumbnail');
+    }
+    
+    public function getThumbnail()
+    {
+        return $this->thumbnails()["medium"];
     }
 }

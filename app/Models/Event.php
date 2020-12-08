@@ -17,6 +17,12 @@ class Event extends Model
         'longitude'
     ];
 
+    protected $dates=[
+        'created_at',
+        'updated_at',
+        'date'
+    ];
+
     /**
      * Get the comments for the blog post.
      */
