@@ -5,9 +5,12 @@ namespace Tests\Feature;
 use App\Models\Channel;
 use App\Models\Event;
 use App\Models\Video;
+use Google\Service;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Http;
+use Mockery;
 use Tests\TestCase;
 
 class CreateVideoTest extends TestCase
@@ -17,6 +20,7 @@ class CreateVideoTest extends TestCase
 
     public function testGetMetaInformationVideo()
     {
+        $this->signIn();
 
         $this->withoutExceptionHandling();
         $response = $this->get('video/id/JeGhUESd_1o');
@@ -35,7 +39,8 @@ class CreateVideoTest extends TestCase
         $this->assertEquals($channelId, $channel->id);
     }
 
-    public function test_guests_may_not_create_videos(){
+    public function test_guests_may_not_create_videos()
+    {
         $this->get('/videos/create')
             ->assertRedirect('/login');
 
@@ -67,5 +72,27 @@ class CreateVideoTest extends TestCase
         */
     }
 
-    
+    public function test_a_authenticated_user_deletes_a_video()
+    {
+        $this->signIn();
+        $video = Video::factory()->create();
+
+        //see if the right connections are made
+        $this->assertDatabaseCount('tags', 45)
+            ->assertDatabaseCount('events_videos', 1)
+            ->assertDatabaseCount('tags_videos', 45)
+            ->assertDatabaseCount('channels', 1)
+            ->assertDatabaseCount('thumbnails', 5)
+            ->assertDatabaseCount('events', 1);
+
+        $response = $this->delete("/videos/" . $video->id);
+
+        //see if the right connections are deleted
+        $this->assertDatabaseCount('tags', 45)
+            ->assertDatabaseCount('channels', 1)
+            ->assertDatabaseCount('events_videos', 0)
+            ->assertDatabaseCount('tags_videos', 0)
+            ->assertDatabaseCount('thumbnails', 0)
+            ->assertDatabaseCount('events', 1);
+    }
 }

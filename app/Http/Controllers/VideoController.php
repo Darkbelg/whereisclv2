@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\App;
 
 class VideoController extends Controller
 {
-    public function __construct()
+
+    private $googleServiceYouTube;
+
+    public function __construct(Google_Service_YouTube $googleServiceYouTube)
     {
         $this->middleware('auth')->except(['index', 'show']);
+        $this->googleServiceYouTube = $googleServiceYouTube;
     }
 
     /*
@@ -283,12 +287,9 @@ class VideoController extends Controller
         // }
         // require_once __DIR__ . '/vendor/autoload.php';
 
-        $client = new Google_Client();
-        $client->setApplicationName('test');
-        $client->setDeveloperKey('AIzaSyCeRyYeYdU8Y4AkwCO-qka9dLeVBPwJo-Q');
 
         // Define service object for making API requests.
-        $service = new Google_Service_YouTube($client);
+        $service = $this->googleServiceYouTube;
 
         $videoIds = [$id];
 
@@ -302,7 +303,7 @@ class VideoController extends Controller
         //$response = $service->videos->listVideos('contentDetails,fileDetails,id,liveStreamingDetails,localizations,player,processingDetails,recordingDetails,snippet,statistics,status,suggestions,topicDetails', $queryParams);
         $response = $service->videos->listVideos('contentDetails,id,liveStreamingDetails,localizations,player,recordingDetails,snippet,statistics,status,topicDetails', $queryParams);
 
-        return $response["items"][0];
+        return $response->getItems()[0];
 
         //return view('videodata',['response' => $response]);
     }
