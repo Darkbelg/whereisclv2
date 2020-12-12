@@ -18,15 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         
-        $this->app->bind(Google_Service_YouTube::class, function (){
-                $client = new Google_Client();
-                $client->setApplicationName('test');
-                $client->setDeveloperKey('AIzaSyCeRyYeYdU8Y4AkwCO-qka9dLeVBPwJo-Q');
-
-                return new Google_Service_YouTube($client);
-            });
     }
 
     /**
