@@ -38,8 +38,8 @@ class VideoController extends Controller
         // }
         // require_once __DIR__ . '/vendor/autoload.php';
         $client = new Google_Client();
-        $client->setApplicationName('test');
-        $client->setDeveloperKey('AIzaSyCeRyYeYdU8Y4AkwCO-qka9dLeVBPwJo-Q');
+        $client->setApplicationName(env("YOUTUBE_API_NAME"));
+        $client->setDeveloperKey(env("YOUUTBE_API_KEY"));
 
         // Define service object for making API requests.
         $service = new Google_Service_YouTube($client);
