@@ -4,20 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Event;
-use App\Models\Tag;
 use Illuminate\Http\Request;
 use App\Models\Video;
+use App\Service\YoutubeApi;
 use Exception;
-use Google_Client;
-use Google_Service_YouTube;
-use Illuminate\Support\Facades\App;
 
 class VideoController extends Controller
 {
 
+    private $youtubeApi;
 
-    public function __construct()
+    public function __construct(YoutubeApi $youtubeApi)
     {
+        $this->youtubeApi = $youtubeApi;
         $this->middleware('auth')->except(['index', 'show']);
     }
 
@@ -27,40 +26,9 @@ class VideoController extends Controller
     */
     public function getVideoMetaDataById($id)
     {
-        /**
-         * Sample PHP code for youtube.liveBroadcasts.list
-         * See instructions for running these code samples locally:
-         * https://developers.google.com/explorer-help/guides/code_samples#php
-         */
-
-        // if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
-        //     throw new Exception(sprintf('Please run "composer require google/apiclient:~2.0" in "%s"', __DIR__));
-        // }
-        // require_once __DIR__ . '/vendor/autoload.php';
-        $client = new Google_Client();
-        $client->setApplicationName(env("YOUTUBE_API_NAME"));
-        $client->setDeveloperKey(env("YOUUTBE_API_KEY"));
-
-        // Define service object for making API requests.
-        $service = new Google_Service_YouTube($client);
-
-        $videoIds = [$id];
-
-        $queryParams = [
-            //'id' => implode(",",$videoIds)
-            'id' => $id
-        ];
-
-        //dd($queryParams);
-
-        //$response = $service->videos->listVideos('contentDetails,fileDetails,id,liveStreamingDetails,localizations,player,processingDetails,recordingDetails,snippet,statistics,status,suggestions,topicDetails', $queryParams);
-        $response = $service->videos->listVideos('contentDetails,id,liveStreamingDetails,localizations,player,recordingDetails,snippet,statistics,status,topicDetails', $queryParams);
-
-        if (request()->method() === "POST") {
-            return $response["items"][0];
-        } else {
-            return view('videodata', ['response' => $response]);
-        }
+        $videoMetaData = $this->youtubeApi->getVideoMetaData($id);
+        
+        return view('videodata', ['response' => $videoMetaData]);
     }
 
 
@@ -100,8 +68,10 @@ class VideoController extends Controller
 
         $event = Event::find(request('event'));
 
-        $videoMetaData = $this->getVideoMetaDataById(request('youtube_id'));
+        $videoMetaData = $this->youtubeApi->getVideoMetaData(request('youtube_id'));
         $videoMetaDataSnippet = $videoMetaData["snippet"];
+        $videoMetaDataStatistics = $videoMetaData["statistics"];
+
         $tags = $videoMetaDataSnippet["tags"];
         $thumbnails = $videoMetaDataSnippet["thumbnails"];
 
@@ -109,16 +79,15 @@ class VideoController extends Controller
             'id' => $videoMetaDataSnippet['channelId'],
             'title' => $videoMetaDataSnippet['channelTitle']
         ]);
-
         $video = $channel->videos()->create([
             "id" => request('youtube_id'),
             "title" => $videoMetaDataSnippet["title"],
             "description" => $videoMetaDataSnippet["description"],
             "published_at" => date('Y-m-d h:i:s', strtotime($videoMetaDataSnippet["publishedAt"])),
-            "comments" => $videoMetaData["statistics"]["commentCount"] ?: 0,
-            "dislikes" => $videoMetaData["statistics"]["dislikeCount"] ?: 0,
-            "likes" => $videoMetaData["statistics"]["likeCount"] ?: 0,
-            "views" => $videoMetaData["statistics"]["viewCount"] ?: 0
+            "comments" => $videoMetaDataStatistics["commentCount"] ?: 0,
+            "dislikes" => $videoMetaDataStatistics["dislikeCount"] ?: 0,
+            "likes" => $videoMetaDataStatistics["likeCount"] ?: 0,
+            "views" => $videoMetaDataStatistics["viewCount"] ?: 0
         ]);
 
         $event->videos()->attach($video->id);

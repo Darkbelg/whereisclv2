@@ -6,7 +6,9 @@ use App\Http\Controllers\VideoController;
 use App\Models\Channel;
 use App\Models\Event;
 use App\Models\Video;
+use App\Service\YoutubeApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class CreateVideoTest extends TestCase
@@ -52,8 +54,8 @@ class CreateVideoTest extends TestCase
 
         $videoId = "JeGhUESd_1o";
 
-        $mock = $this->partialMock(VideoController::class, function ($mock) {
-            $mock->shouldReceive('getVideoMetaDataById')->andReturn($this->getVideoMetaDataById());
+        $mock = $this->partialMock(YoutubeApi::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getVideoMetaData')->once()->andReturn($this->getVideoMetaDataById());
         });
 
         $response = $this->withoutExceptionHandling()
@@ -64,12 +66,6 @@ class CreateVideoTest extends TestCase
             ->assertDatabaseCount('thumbnails', 5)
             ->get($response->headers->get('Location'))
             ->assertSee("Mock CL +5 STAR+ Official Video");
-
-        /*
-        $this->get($response->headers->get('Location'))
-        ->assertSee($video->title)
-        ->assertSee($video->description);
-        */
     }
 
     public function test_a_authenticated_user_deletes_a_video()

@@ -9,21 +9,24 @@ use Tests\TestCase;
 
 class RefreshTest extends TestCase
 {
-    public function test_refresh_video_data()
+    use RefreshDatabase;
+    
+    public function test_refresh_all_video_data()
     {
         $this->signIn();
 
-        $video = Video::factory()->create(["views" => "100"]);
+        $videos = Video::factory(50)->create(['id' => "JeGhUESd_1o","views" => "100"]);
 
-        $mock = $this->partialMock(VideoController::class, function ($mock) {
-            $mock->shouldReceive('getVideoMetaDataById')->andReturn($this->getVideoMetaDataById());
-        });
+        // $mock = $this->partialMock(VideoController::class, function ($mock) {
+        //     $mock->shouldReceive('getVideoMetaDataById')->andReturn($this->getVideoMetaDataById());
+        // });
         
-        $this->get("/refresh");
 
+        $response = $this->withoutExceptionHandling()->get("/refresh")->assertRedirect('/');
 
-
-
+        $videoDatabase = Video::first()->get();
+        $this->assertEquals('3741389',$videoDatabase["views"]);
+        //$this->assertSee()
         // Go to controller
         //Mock refresh
         //Check
