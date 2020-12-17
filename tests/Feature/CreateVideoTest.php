@@ -53,7 +53,7 @@ class CreateVideoTest extends TestCase
         $event = Event::factory()->create();
 
         $videoId = "JeGhUESd_1o";
-
+        
         $mock = $this->partialMock(YoutubeApi::class, function (MockInterface $mock) {
             $mock->shouldReceive('getVideoMetaData')->once()->andReturn($this->getVideoMetaDataById());
         });

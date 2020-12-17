@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Video;
+use App\Service\YoutubeApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -11,26 +12,23 @@ class RefreshTest extends TestCase
 {
     use RefreshDatabase;
     
-    // public function test_refresh_all_video_data()
-    // {
-    //     $this->signIn();
+    public function test_refresh_all_video_data()
+    {
+        $this->signIn();
 
-    //     $videos = Video::factory(50)->create(['id' => "JeGhUESd_1o","views" => "100"]);
+        $videos = Video::factory(5)->create(['id' => "JeGhUESd_1o","views" => "100"]);
 
-    //     // $mock = $this->partialMock(VideoController::class, function ($mock) {
-    //     //     $mock->shouldReceive('getVideoMetaDataById')->andReturn($this->getVideoMetaDataById());
-    //     // });
+        $mock = $this->partialMock(YoutubeApi::class, function ($mock) {
+            $mock->shouldReceive('getVideoMetaData')->andReturn($this->getVideoMetaDataById());
+        });
         
+        $response = $this->withoutExceptionHandling()->get("/refresh")->assertRedirect('/');
 
-    //     $response = $this->withoutExceptionHandling()->get("/refresh")->assertRedirect('/');
-
-    //     $videoDatabase = Video::first()->get();
-    //     $this->assertEquals('3741389',$videoDatabase["views"]);
-    //     //$this->assertSee()
-    //     // Go to controller
-    //     //Mock refresh
-    //     //Check
-    // }
+        $videoDatabaseFirst = Video::all()->first();
+        $videoDatabaseLast = Video::all()->last();
+        $this->assertNotEquals('100',$videoDatabaseFirst->views);
+        $this->assertNotEquals('100',$videoDatabaseLast->views);
+    }
 
     public function getVideoMetaDataById()
     {
