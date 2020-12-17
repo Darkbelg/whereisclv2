@@ -12,11 +12,8 @@ use Exception;
 class VideoController extends Controller
 {
 
-    private $youtubeApi;
-
-    public function __construct(YoutubeApi $youtubeApi)
+    public function __construct()
     {
-        $this->youtubeApi = $youtubeApi;
         $this->middleware('auth')->except(['index', 'show']);
     }
 
@@ -24,9 +21,9 @@ class VideoController extends Controller
     * Get's the meta data of a video by the parameter id
     * @param $id String Youtube video ID
     */
-    public function getVideoMetaDataById($id)
+    public function getVideoMetaDataById($id,YoutubeApi $youtubeApi)
     {
-        $videoMetaData = $this->youtubeApi->getVideoMetaData($id);
+        $videoMetaData = $youtubeApi->getVideoMetaData($id);
         
         return view('videodata', ['response' => $videoMetaData]);
     }
@@ -59,7 +56,7 @@ class VideoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(YoutubeApi $youtubeApi)
     {
         request()->validate([
             'youtube_id' => 'required',
@@ -68,7 +65,7 @@ class VideoController extends Controller
 
         $event = Event::find(request('event'));
 
-        $videoMetaData = $this->youtubeApi->getVideoMetaData(request('youtube_id'));
+        $videoMetaData = $youtubeApi->getVideoMetaData(request('youtube_id'));
         $videoMetaDataSnippet = $videoMetaData["snippet"];
         $videoMetaDataStatistics = $videoMetaData["statistics"];
 
