@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Video;
 use App\Service\YoutubeApi;
 use Illuminate\Http\Request;
@@ -10,7 +11,8 @@ class RefreshController extends Controller
 {
     private $youtubeApi;
 
-    public function __construct(YoutubeApi $youtubeApi) {
+    public function __construct(YoutubeApi $youtubeApi)
+    {
         $this->youtubeApi = $youtubeApi;
     }
 
@@ -28,8 +30,10 @@ class RefreshController extends Controller
             $video->dislikes = $videoMetaDataStatistics["dislikeCount"] ?: $video->dislikes;
             $video->likes = $videoMetaDataStatistics["likeCount"] ?: $video->likes;
             $video->views = $videoMetaDataStatistics["viewCount"] ?: $video->views;
-            
-            $video->save();
+
+            $video->updateTags($videoMetaDataSnippet["tags"])
+                ->updateThumbnails($videoMetaDataSnippet["thumbnails"])
+                ->save();
         }
 
         return redirect('/');

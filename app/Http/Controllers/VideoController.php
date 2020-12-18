@@ -71,9 +71,6 @@ class VideoController extends Controller
         $videoMetaDataSnippet = $videoMetaData["snippet"];
         $videoMetaDataStatistics = $videoMetaData["statistics"];
 
-        $tags = $videoMetaDataSnippet["tags"];
-        $thumbnails = $videoMetaDataSnippet["thumbnails"];
-
         $channel = Channel::firstOrCreate([
             'id' => $videoMetaDataSnippet['channelId'],
             'title' => $videoMetaDataSnippet['channelTitle']
@@ -91,20 +88,7 @@ class VideoController extends Controller
 
         $event->videos()->attach($video->id);
 
-        foreach ((array)$tags as $tag) {
-            $video->tags()->create([
-                "tag" => $tag
-            ]);
-        }
-
-        foreach ($thumbnails as $size => $thumbnail) {
-            $video->thumbnails()->create([
-                'size' => $size,
-                'url' => $thumbnail["url"],
-                'height' => $thumbnail["height"],
-                'width' => $thumbnail["width"]
-            ]);
-        }
+        $video->updateTags($videoMetaDataSnippet["tags"])->updateThumbnails($videoMetaDataSnippet["thumbnails"]);
 
         return redirect('/videos/' . $video->id);
     }
@@ -151,9 +135,7 @@ class VideoController extends Controller
      */
     public function destroy(Video $video)
     {
-        $video->tags()->detach();
-        $video->events()->detach();
-        $video->thumbnails()->delete();
+        $video->detach();
         $video->delete();
 
         return redirect('/videos');

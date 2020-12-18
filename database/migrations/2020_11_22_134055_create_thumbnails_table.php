@@ -17,6 +17,7 @@ class CreateThumbnailsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('video_id');
+            $table->foreign('video_id')->references('id')->on('videos');
             $table->string('size');
             $table->string('url');
             $table->unsignedInteger('width');

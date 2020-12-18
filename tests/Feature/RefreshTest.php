@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Tag;
 use App\Models\Video;
 use App\Service\YoutubeApi;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,6 +27,9 @@ class RefreshTest extends TestCase
 
         $videoDatabaseFirst = Video::all()->first();
         $videoDatabaseLast = Video::all()->last();
+
+        $this->assertEquals('45',count($videoDatabaseFirst->tags));
+        $this->assertEquals('45',count($videoDatabaseLast->tags));
         $this->assertNotEquals('100',$videoDatabaseFirst->views);
         $this->assertNotEquals('100',$videoDatabaseLast->views);
     }

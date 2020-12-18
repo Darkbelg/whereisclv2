@@ -50,7 +50,7 @@ class VideoFactory extends Factory
 
         for ($i=0; $i < 45; $i++) { 
             $video->tags()->create([
-                "tag" => $this->faker->word()
+                "tag" => $this->faker->unique()->sentence
             ]);
         }
 

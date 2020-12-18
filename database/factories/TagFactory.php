@@ -23,7 +23,7 @@ class TagFactory extends Factory
     {
         return [
             'id' => $this->faker->unique()->randomNumber,
-            'tag' => $this->faker->sentence
+            'tag' => $this->faker->unique()->word
         ];
     }
 }

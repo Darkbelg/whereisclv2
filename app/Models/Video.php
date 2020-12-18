@@ -26,7 +26,7 @@ class Video extends Model
         'views'
     ];
 
-    protected $dates=[
+    protected $dates = [
         'created_at',
         'updated_at',
         'published_at'
@@ -35,7 +35,7 @@ class Video extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('App\Models\Tag','tags_videos');
+        return $this->belongsToMany('App\Models\Tag', 'tags_videos');
     }
 
     public function channel()
@@ -45,16 +45,55 @@ class Video extends Model
 
     public function events()
     {
-        return $this->belongsToMany('App\Models\Event','events_videos');
+        return $this->belongsToMany('App\Models\Event', 'events_videos');
     }
 
     public function thumbnails()
     {
         return $this->hasMany('App\Models\Thumbnail');
     }
-    
+
     public function getThumbnail()
     {
         return $this->thumbnails()["medium"];
+    }
+
+    public function updateTags($newTags)
+    {
+        $videoTags = $this->tags()->get()->toArray();
+        $diffTags = array_diff(array_map(function ($value) {
+            return $value["tag"];
+        }, $videoTags), (array)$newTags);
+
+        foreach ($diffTags as $id => $tag) {
+            $this->tags()->detach(Tag::where('tag', $tag)->first()->id);
+        }
+
+        foreach ((array)$newTags as $tag) {
+            $this->tags()->firstOrCreate([
+                "tag" => $tag
+            ]);
+        }
+        return $this;
+    }
+
+    public function updateThumbnails($newThumbnails)
+    {
+        foreach ($newThumbnails as $size => $thumbnail) {
+            $this->thumbnails()->updateOrCreate([
+                'size' => $size,
+                'url' => $thumbnail["url"],
+                'height' => $thumbnail["height"],
+                'width' => $thumbnail["width"]
+            ]);
+        }
+        return $this;
+    }
+
+    public function detach()
+    {
+        $this->tags()->detach();
+        $this->events()->detach();
+        $this->thumbnails()->delete();
     }
 }
