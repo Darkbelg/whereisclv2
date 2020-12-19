@@ -1,5 +1,11 @@
-<x-guest-layout>
-    <div class="w-1/2 m-auto">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Edit Event') }}
+        </h2>
+    </x-slot>
+
+    <div class="w-1/2 m-auto mt-2">
         <div class="p-10 bg-white mb-2 shadow-sm sm:rounded-lg">
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
@@ -34,6 +40,7 @@
 
                 <div class="mt-2">
                     <x-button> {{ __('Update') }} </x-button>
+                    <a href="/events">Cancel</a>
                 </div>
             </form>
-</x-guest-layout>
+</x-app-layout>

@@ -16,7 +16,7 @@ class VideoController extends Controller
     public function __construct(YoutubeApi $youtubeApi)
     {
         $this->youtubeApi = $youtubeApi;
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth');
     }
 
     /*

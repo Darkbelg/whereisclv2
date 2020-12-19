@@ -23,7 +23,7 @@ Route::get('/', function () {
 });
 
 Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);
-Route::get('refresh', [RefreshController::class, 'refreshAll']);
+Route::get('refresh', [RefreshController::class, 'refreshAll'])->name('refresh');
 Route::resource('videos', VideoController::class);
 
 Route::resource('events', EventController::class);
