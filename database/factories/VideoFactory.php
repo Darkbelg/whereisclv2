@@ -26,11 +26,11 @@ class VideoFactory extends Factory
      */
     public function definition()
     {
-       
-        $id = $this->faker->regexify('[A-Z0-9._+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}');
-        $event = Event::factory()->create();
+        $id = $this->faker->regexify('[A-Z0-9_+-]+@[A-Z0-9-]+\_[A-Z]{2,4}');
+
         $channel = Channel::factory()->create();
-        $video = $channel->videos()->create([
+
+        return [
             'id' => $id,
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
@@ -39,21 +39,32 @@ class VideoFactory extends Factory
             'dislikes' => $this->faker->randomNumber(),
             'likes' => $this->faker->randomNumber(),
             'views' => $this->faker->randomNumber(),
-        ]);
+            'channel_id' => $channel->id
+        ];
+    }
 
-        $event->videos()->attach($video->id);
 
-        $sizes = ["default","high","maxres","medium","standard"];
-        foreach ($sizes as $size) {
-            Thumbnail::factory()->create(['video_id' => $id,'size' => $size]);
-        }
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function (Video $video) {
+            $event = Event::factory()->create();
+            $event->videos()->attach($video->id);
 
-        for ($i=0; $i < 45; $i++) { 
-            $video->tags()->create([
-                "tag" => $this->faker->unique()->sentence
-            ]);
-        }
+            $sizes = ["default", "high", "maxres", "medium", "standard"];
+            foreach ($sizes as $size) {
+                Thumbnail::factory()->create(['video_id' => $video->id, 'size' => $size]);
+            }
 
-        return $video->toArray();
+            for ($i = 0; $i < 45; $i++) {
+                $video->tags()->create([
+                    "tag" => $this->faker->unique()->sentence
+                ]);
+            }
+        });
     }
 }
