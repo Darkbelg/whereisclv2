@@ -52,12 +52,9 @@ class VideoFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Video $video) {
-            $event = Event::factory()->create();
-            $event->videos()->attach($video->id);
-
             $sizes = ["default", "high", "maxres", "medium", "standard"];
             foreach ($sizes as $size) {
-                Thumbnail::factory()->create(['video_id' => $video->id, 'size' => $size]);
+                Thumbnail::factory()->size($size)->create(['video_id' => $video->id]);
             }
 
             for ($i = 0; $i < 45; $i++) {

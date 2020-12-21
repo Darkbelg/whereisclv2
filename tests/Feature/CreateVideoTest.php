@@ -16,7 +16,13 @@ class CreateVideoTest extends TestCase
 
     use RefreshDatabase;
 
-    public function test_get_meta_information_video()
+    public function test_a_guest_may_not_get_meta_information_video()
+    {
+        $this->get('video/id/JeGhUESd_1o')
+        ->assertRedirect('/login');
+    }
+
+    public function test_an_authenticated_user_can_get_meta_information_video()
     {
         $this->signIn();
 
@@ -26,7 +32,7 @@ class CreateVideoTest extends TestCase
         $response->assertSee('CL +5 STAR+ Official Video');
     }
 
-    public function testEveryVideoHasAChannel()
+    public function test_every_video_has_a_channel()
     {
         $video = Video::factory()->create();
 
@@ -68,10 +74,17 @@ class CreateVideoTest extends TestCase
             ->assertSee("Mock CL +5 STAR+ Official Video");
     }
 
-    public function test_a_authenticated_user_deletes_a_video()
+    public function test_guest_may_not_delete_a_video()
+    {
+        $this->delete('/videos/2')
+        ->assertRedirect('/login');
+    }
+
+    public function test_an_authenticated_user_deletes_a_video()
     {
         $this->signIn();
-        $video = Video::factory()->create();
+
+        $video = Video::factory()->hasEvents()->create();
 
         //see if the right connections are made
         $this->assertDatabaseCount('tags', 45)

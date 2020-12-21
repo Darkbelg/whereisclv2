@@ -17,7 +17,7 @@ class CreateTagTest extends TestCase
      *
      * @return void
      */
-    public function testTagCreation()
+    public function test_tag_creation()
     {
         $tags = Tag::factory()->create(['id' => 1,'tag' => 'cl' ]);
         $tag = $tags->toArray(); 

@@ -14,13 +14,14 @@ class RefreshController extends Controller
     public function __construct(YoutubeApi $youtubeApi)
     {
         $this->youtubeApi = $youtubeApi;
+        $this->middleware('auth');
     }
 
     public function refreshAll()
     {
         $videos = Video::All();
         foreach ($videos as $video) {
-            $videoMetaData = $this->youtubeApi->getVideoMetaData("JeGhUESd_1o");
+            $videoMetaData = $this->youtubeApi->getVideoMetaData($video->id);
             $videoMetaDataSnippet = $videoMetaData["snippet"];
             $videoMetaDataStatistics = $videoMetaData["statistics"];
 

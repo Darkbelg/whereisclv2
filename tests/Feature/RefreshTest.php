@@ -12,29 +12,43 @@ use Tests\TestCase;
 class RefreshTest extends TestCase
 {
     use RefreshDatabase;
-    
-    public function test_refresh_all_video_data()
+
+    public function test_guests_may_not_refresh()
+    {
+        $this->get('/refresh')
+        ->assertRedirect('/login');
+    }
+
+    public function test_an_authenticated_user_can_refresh_all_video_data()
     {
         $this->signIn();
 
-        $videos = Video::factory(5)->create(['id' => "JeGhUESd_1o","views" => "100"]);
+        $videoDatabaseFirst = Video::factory()->create(['id' => "JeGhUESd_1o_1", "views" => "100"]);
+        $videoDatabaseSecond = Video::factory()->create(['id' => "JeGhUESd_1o_2", "views" => "100"]);
+        $videoDatabaseThird = Video::factory()->create(['id' => "JeGhUESd_1o_3", "views" => "100"]);
+
 
         $mock = $this->partialMock(YoutubeApi::class, function ($mock) {
-            $mock->shouldReceive('getVideoMetaData')->andReturn($this->getVideoMetaDataById());
+            $mock->shouldReceive('getVideoMetaData')->andReturn(
+                $this->getVideoMetaDataById("JeGhUESd_1o_1"),
+                $this->getVideoMetaDataById("JeGhUESd_1o_2"),
+                $this->getVideoMetaDataById("JeGhUESd_1o_3")
+            );
         });
-        
-        $response = $this->withoutExceptionHandling()->get("/refresh")->assertRedirect('/');
 
-        $videoDatabaseFirst = Video::all()->first();
-        $videoDatabaseLast = Video::all()->last();
+        $this->withoutExceptionHandling()->get("/refresh")->assertRedirect('/');
 
-        $this->assertEquals('45',count($videoDatabaseFirst->tags));
-        $this->assertEquals('45',count($videoDatabaseLast->tags));
-        $this->assertNotEquals('100',$videoDatabaseFirst->views);
-        $this->assertNotEquals('100',$videoDatabaseLast->views);
+        $this->assertEquals('45', count($videoDatabaseFirst->fresh()->tags));
+        $this->assertEquals('3741389', $videoDatabaseFirst->fresh()->views);
+
+        $this->assertEquals('45', count($videoDatabaseSecond->fresh()->tags));
+        $this->assertEquals('200000', $videoDatabaseSecond->fresh()->views);
+
+        $this->assertEquals('45', count($videoDatabaseThird->fresh()->tags));
+        $this->assertEquals('3000000', $videoDatabaseThird->fresh()->views);
     }
 
-    public function getVideoMetaDataById()
+    public function getVideoMetaDataById($id)
     {
         $youtubeVideoJsonApiData = <<<'JSONDATA'
         {
@@ -278,6 +292,20 @@ class RefreshTest extends TestCase
         }
         JSONDATA;
 
-        return json_decode($youtubeVideoJsonApiData, true)["items"][0];
+        $youtubeVideoApiData = json_decode($youtubeVideoJsonApiData, true);
+
+        switch ($id) {
+            case 'JeGhUESd_1o_2':
+                $youtubeVideoApiData["items"][0]["id"] = "JeGhUESd_1o_2";
+                $youtubeVideoApiData["items"][0]["statistics"]["viewCount"] = "200000";
+                break;
+            case 'JeGhUESd_1o_3':
+                $youtubeVideoApiData["items"][0]["id"] = "JeGhUESd_1o_3";
+                $youtubeVideoApiData["items"][0]["statistics"]["viewCount"] = "3000000";
+                break;
+            default:
+                break;
+        }
+        return $youtubeVideoApiData["items"][0];
     }
 }
