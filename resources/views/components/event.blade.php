@@ -1,6 +1,6 @@
 <div class="mt-2">
     <a href="events/{{ $event->id }}" class="mt-2">
-        <div class="p-10 bg-white mb-2 shadow-sm sm:rounded-lg">
+        <div class="p-10 bg-white mb-2 shadow-sm lg:rounded-lg">
             <div class="text-lg leading-6 font-medium text-gray-900 flex justify-between">
                 <h1>{{ $event->title }}</h1>
                 <p class="text-sm left">{{ $event->id }}</p>

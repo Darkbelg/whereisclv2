@@ -19,7 +19,7 @@
 </head>
 
 <body class="bg-red-600 font-sans text-grey-100 antialiased">
-    <div class="w-1/2 m-auto mt-10 mb-2">
+    <div class="lg:w-1/2 m-auto mt-10 mb-2">
         <x-title></x-title>
     </div>
     <div class="w-4/8 m-auto">
