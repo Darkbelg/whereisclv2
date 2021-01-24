@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $events = Event::with('videos')->get();
+    $events = Event::with('videos')->orderBy('date','desc')->get();
     return view('overview',['events' => $events]);
 });
 

@@ -6,6 +6,7 @@ use App\Models\Channel;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\Video;
+use App\Rules\EmptyArray;
 use App\Service\YoutubeApi;
 use Exception;
 
@@ -29,7 +30,6 @@ class VideoController extends Controller
         
         return view('videodata', ['response' => $videoMetaData]);
     }
-
 
     /**
      * Display a listing of the resource.
@@ -61,36 +61,18 @@ class VideoController extends Controller
     public function store()
     {
         request()->validate([
-            'youtube_id' => 'required',
+            'youtube' => new EmptyArray,
             'event' => 'required'
         ]);
 
         $event = Event::find(request('event'));
 
-        $videoMetaData = $this->youtubeApi->getVideoMetaData(request('youtube_id'));
-        $videoMetaDataSnippet = $videoMetaData["snippet"];
-        $videoMetaDataStatistics = $videoMetaData["statistics"];
+        foreach (array_filter(request('youtube')) as $youtubeId) {
+            $this->storeOneVideo($youtubeId,$event);
+        }
 
-        $channel = Channel::firstOrCreate([
-            'id' => $videoMetaDataSnippet['channelId'],
-            'title' => $videoMetaDataSnippet['channelTitle']
-        ]);
-        $video = $channel->videos()->create([
-            "id" => request('youtube_id'),
-            "title" => $videoMetaDataSnippet["title"],
-            "description" => $videoMetaDataSnippet["description"],
-            "published_at" => date('Y-m-d h:i:s', strtotime($videoMetaDataSnippet["publishedAt"])),
-            "comments" => $videoMetaDataStatistics["commentCount"] ?: 0,
-            "dislikes" => $videoMetaDataStatistics["dislikeCount"] ?: 0,
-            "likes" => $videoMetaDataStatistics["likeCount"] ?: 0,
-            "views" => $videoMetaDataStatistics["viewCount"] ?: 0
-        ]);
 
-        $event->videos()->attach($video->id);
-
-        $video->updateTags($videoMetaDataSnippet["tags"])->updateThumbnails($videoMetaDataSnippet["thumbnails"]);
-
-        return redirect('/videos/' . $video->id);
+        return redirect('/videos/');
     }
 
     /**
@@ -139,5 +121,34 @@ class VideoController extends Controller
         $video->delete();
 
         return redirect('/videos');
+    }
+
+    public function storeOneVideo($youtubeId,$event)
+    {
+        $videoMetaData = $this->youtubeApi->getVideoMetaData($youtubeId);
+        $videoMetaDataSnippet = $videoMetaData["snippet"];
+        $videoMetaDataStatistics = $videoMetaData["statistics"];
+
+        $channel = Channel::firstOrCreate([
+            'id' => $videoMetaDataSnippet['channelId'],
+            'title' => $videoMetaDataSnippet['channelTitle']
+        ]);
+        
+        $video = $channel->videos()->create([
+            "id" => $youtubeId,
+            "title" => $videoMetaDataSnippet["title"],
+            "description" => $videoMetaDataSnippet["description"],
+            "published_at" => date('Y-m-d h:i:s', strtotime($videoMetaDataSnippet["publishedAt"])),
+            "comments" => $videoMetaDataStatistics["commentCount"] ?: 0,
+            "dislikes" => $videoMetaDataStatistics["dislikeCount"] ?: 0,
+            "likes" => $videoMetaDataStatistics["likeCount"] ?: 0,
+            "views" => $videoMetaDataStatistics["viewCount"] ?: 0
+        ]);
+
+        $event->videos()->attach($video->id);
+
+        $video->updateTags($videoMetaDataSnippet["tags"])->updateThumbnails($videoMetaDataSnippet["thumbnails"]);
+
+        return $video;
     }
 }

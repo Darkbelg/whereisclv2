@@ -24,10 +24,12 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div>
-                            <x-label for="youtube_id" :value="__('Youtube ID:')" />
-                            <x-input type="youtube_id" name="youtube_id" id="youtube_id" :value="old('youtube_id')" required />
-                        </div>
+                        @for ($i = 0; $i < 10; $i++)
+                            <div>
+                                <x-label for="youtube_id" :value="__('Youtube ID:')" />
+                                <x-input type="youtube_id" name="youtube[]" id="youtube_id" :value="old('youtube_id')"/>
+                            </div>
+                        @endfor
                         <x-button class="mt-2"> {{ __('Create') }} </x-button>
                     </form>
                 </div>
