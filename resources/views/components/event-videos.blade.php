@@ -1,9 +1,9 @@
 <div class="bg-gray-100 p-2 lg:p-10 mb-2 shadow-sm rounded-lg">
     <div class="text-4xl leading-6 font-medium text-gray-900 lg:flex lg:justify-between">
         <h1>{{ $event->title }}</h1>
-        <p class="text-sm text-right lg:left">@datetime($event->date)</p>
+        <p class="text-sm text-right lg:left text-gray-700">@datetime($event->date)</p>
     </div>
-    <p><span class="w-1/2 lg:w-0" >Location:</span> {{ $event->location }}</p>
+    <p class="text-gray-700 mt-1"><span class="w-1/2 lg:w-0">Location:</span> {{ $event->location }}</p>
 
     @if ($event->videos)
     <div class="mt-2 flex flex-col sm:flex-row flex-wrap">
