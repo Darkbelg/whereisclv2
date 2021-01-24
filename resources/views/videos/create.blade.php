@@ -20,7 +20,7 @@
                                 <option value="">Choose One...</option>
                                 @foreach ($events as $event)
                                 <option value="{{$event->id}}"
-                                    {{ old('event') == $event->id ? 'selected' : ''}}>{{$event->title}}</option>
+                                    {{ old('event') == $event->id ? 'selected' : ''}}>{{$event->title}}: {{$event->location}}</option>
                                 @endforeach
                             </select>
                         </div>

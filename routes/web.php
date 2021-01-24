@@ -18,8 +18,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $events = Event::with('videos')->orderBy('date','desc')->get();
-    return view('overview',['events' => $events]);
+    $events = Event::with(
+        ['videos' => function ($query) {
+            $query->orderBy('views', 'DESC');
+        }]
+    )
+        ->orderBy('date', 'desc')
+        ->get();
+    return view('overview', ['events' => $events]);
 });
 
 Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);
@@ -32,4 +38,4 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
