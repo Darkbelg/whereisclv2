@@ -11,7 +11,7 @@
 
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                    <form action="/events" method="post">
+                    <form action="{{ route('events.store') }}" method="post">
                         @csrf
 
                         <div>

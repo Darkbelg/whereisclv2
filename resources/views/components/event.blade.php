@@ -1,5 +1,5 @@
 <div class="mt-2">
-    <a href="events/{{ $event->id }}" class="mt-2">
+    <a href="{{ route('events.show',$event->id) }}" class="mt-2">
         <div class="p-10 bg-white mb-2 shadow-sm lg:rounded-lg">
             <div class="text-lg leading-6 font-medium text-gray-900 flex justify-between">
                 <h1>{{ $event->title }}</h1>
@@ -13,7 +13,7 @@
                     @csrf
                     <x-button class="bg-blue-700" type="submit">Update</x-button>
                 </form>
-                <form action="/events/{{ $event->id }}" method="post">
+                <form action="{{ route('events.destroy',$event->id) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <x-button class="bg-red-700" type="submit">Delete</x-button>
@@ -25,7 +25,7 @@
                 <ul>
                     @foreach ($event->videos as $videos)
                     <li>
-                        <a href="videos/{{$videos->id}}">{{$videos->title}}</a>
+                        <a href="{{ route('videos.show',$videos->id) }}">{{$videos->title}}</a>
                     </li>
                     @endforeach
                 </ul>

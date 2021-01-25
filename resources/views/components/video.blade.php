@@ -1,5 +1,5 @@
 <div class="mt-2">
-    <a href="videos/{{ $video->id }}">
+    <a href="{{ route('videos.show',$video->id) }}">
         <div class="p-10 bg-white mb-2 shadow-sm sm:rounded-lg">
             <div class="text-lg leading-6 font-medium text-gray-900 flex justify-between">
                 <h1>{{ $video->title }}</h1>
@@ -18,7 +18,7 @@
             @endforeach
 
             <div class="flex flex-row space-x-4 mt-2">
-                <form action="/videos/{{ $video->id }}" method="post">
+                <form action="{{ route('videos.destroy',$video->id) }}" method="post">
                     @csrf
                     @method('DELETE')
                     <x-button class="bg-red-700" type="submit">Delete</x-button>

@@ -9,7 +9,7 @@
         <div class="p-10 bg-white mb-2 shadow-sm sm:rounded-lg">
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-            <form action="/events/{{ $event->id }}" method="post">
+            <form action="{{ route('events.update',$event->id) }}" method="post">
                 @csrf
                 @method('PATCH')
 
@@ -40,7 +40,7 @@
 
                 <div class="mt-2">
                     <x-button> {{ __('Update') }} </x-button>
-                    <a href="/events">Cancel</a>
+                    <a href="{{ route('events.index') }}">Cancel</a>
                 </div>
             </form>
 </x-app-layout>
