@@ -119,8 +119,12 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        $event->delete();
+        try {
+            $event->delete();
 
-        return redirect('/events');
+            return redirect('/events');
+        } catch (\Exception $th) {
+            return redirect('/events');
+        }
     }
 }

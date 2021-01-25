@@ -27,7 +27,7 @@ class VideoController extends Controller
     public function getVideoMetaDataById($id)
     {
         $videoMetaData = $this->youtubeApi->getVideoMetaData($id);
-        
+
         return view('videodata', ['response' => $videoMetaData]);
     }
 
@@ -65,14 +65,17 @@ class VideoController extends Controller
             'event' => 'required'
         ]);
 
-        $event = Event::find(request('event'));
+        try {
+            $event = Event::find(request('event'));
 
-        foreach (array_filter(request('youtube')) as $youtubeId) {
-            $this->storeOneVideo($youtubeId,$event);
+            foreach (array_filter(request('youtube')) as $youtubeId) {
+                $this->storeOneVideo($youtubeId, $event);
+            }
+
+            return redirect('/videos/');
+        } catch (\Throwable $th) {
+            return redirect('/videos/');
         }
-
-
-        return redirect('/videos/');
     }
 
     /**
@@ -123,7 +126,7 @@ class VideoController extends Controller
         return redirect('/videos');
     }
 
-    public function storeOneVideo($youtubeId,$event)
+    public function storeOneVideo($youtubeId, $event)
     {
         $videoMetaData = $this->youtubeApi->getVideoMetaData($youtubeId);
         $videoMetaDataSnippet = $videoMetaData["snippet"];
@@ -133,7 +136,7 @@ class VideoController extends Controller
             'id' => $videoMetaDataSnippet['channelId'],
             'title' => $videoMetaDataSnippet['channelTitle']
         ]);
-        
+
         $video = $channel->videos()->create([
             "id" => $youtubeId,
             "title" => $videoMetaDataSnippet["title"],
