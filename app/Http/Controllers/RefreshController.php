@@ -6,6 +6,7 @@ use App\Models\Tag;
 use App\Models\Video;
 use App\Service\YoutubeApi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class RefreshController extends Controller
 {
@@ -36,6 +37,8 @@ class RefreshController extends Controller
                 ->updateThumbnails($videoMetaDataSnippet["thumbnails"])
                 ->save();
         }
+
+        Cache::flush();
 
         return redirect('/');
     }
