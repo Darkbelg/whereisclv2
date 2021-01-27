@@ -7,12 +7,10 @@
             <div>
                 <a class="link" href="http://support.operationsmile.org/site/TR?pg=fund&fr_id=1030&pxfid=39223">To donate, simply smile.</a>
             </div>
-            <div>For support: <a class="link" href="https://twitter.com/darkbelg">@Darkbelg</a></div>
+            <div>Mail <a class="link" href="mailto:support@whereiscl.com">Support</a></div>
             <div>
                 <a class="link" href="https://www.youtube.com/t/terms">YouTube ToS​</a>
             </div>
         </footer>
     </div>
-
-
 </x-guest-layout>
