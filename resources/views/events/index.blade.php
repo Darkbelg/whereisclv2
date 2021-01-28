@@ -6,9 +6,9 @@
         <a href="{{ route('events.create') }}">Create Event</a>
     </x-slot>
 
-        <div class="w-1/2 m-auto">
-            @foreach ($events as $event)
-                <x-event :event="$event"></x-event>
-            @endforeach
-        </div>
+    <div class="w-1/2 m-auto">
+        @foreach ($events as $event)
+        <x-event :event="$event"></x-event>
+        @endforeach
+    </div>
 </x-app-layout>

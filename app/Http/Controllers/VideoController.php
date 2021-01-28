@@ -74,7 +74,7 @@ class VideoController extends Controller
 
             return redirect('/videos/');
         } catch (\Throwable $th) {
-            return redirect('/videos/');
+            return redirect('/videos/')->with('status', 'Something went wrong saving all videos');
         }
     }
 

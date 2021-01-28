@@ -29,6 +29,11 @@
 
             <!-- Page Content -->
             <main>
+                @if (session('status'))
+                <div class="w-1/2 m-auto text-white text-2xl px-6 py-4 border-0 rounded relative mb-4 bg-red-500">
+                    {{ session('status') }}
+                </div>
+                @endif
                 {{ $slot }}
             </main>
         </div>

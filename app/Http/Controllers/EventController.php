@@ -124,7 +124,7 @@ class EventController extends Controller
 
             return redirect('/events');
         } catch (\Exception $th) {
-            return redirect('/events');
+            return redirect('/events')->with('status', 'Unable to delete Event. Make sure all videos have been deleted before deleting the event.');
         }
     }
 }
