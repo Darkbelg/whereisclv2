@@ -1,14 +1,12 @@
 <x-guest-layout>
     <div class="lg:w-8/12 m-auto">
-
         @foreach ($events as $event)
         <x-event-videos :event="$event"></x-event-videos>
-
         @endforeach
 
         <div class="bg-white">
             <h2 class="p-2 text-center text-2xl">CL is climbing a mountain and she is only half way there.</h2>
-            <div id="main" style="width:1200px; height:400px;"></div>
+            <div id="main" style="width:1200px; height:1200px;"></div>
         </div>
 
         <script type="text/javascript">
@@ -26,8 +24,7 @@
         },
         series: [{
             data: ['{!! $views !!}'],
-            type: 'line',
-            smooth: true
+            type: 'line'
         }]
     };
 

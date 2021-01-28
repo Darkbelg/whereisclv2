@@ -23,12 +23,13 @@ class HomeController extends Controller
         $views = [];
         foreach (array_reverse($events->toArray()) as $event) {
             $dates[] = "'" . $event["date"] . "'";
-            $views[] = (array_sum($views) + array_sum(array_map(function($video){
+            $views[] = (end($views) ?: 0) + array_sum(array_map(function($video){
 
                 return $video['views'];
-            },$event['videos'])));
+            },$event['videos']));
             
         }
+        //dd($views);
         $views = implode("','", $views);
         $dates = implode(",", $dates);
 
