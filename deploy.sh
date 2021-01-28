@@ -2,8 +2,10 @@ git pull
 
 composer install --optimize-autoloader --no-dev
 
-php artisan config:cache
+sudo -s /bin/bash -c "php artisan config:cache" -g www-data www-data
 
-php artisan route:cache
+sudo -s /bin/bash -c "php artisan route:cache" -g www-data www-data
 
-php artisan view:cache
+sudo -s /bin/bash -c "php artisan view:cache" -g www-data www-data
+
+sudo -s /bin/bash -c "php artisan cache:clear" -g www-data www-data
