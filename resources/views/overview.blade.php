@@ -7,7 +7,7 @@
         @endforeach
 
         <div class="bg-white">
-            <h2>CL is climbing a mountain and she is only half way there.</h2>
+            <h2 class="p-2 text-center text-2xl">CL is climbing a mountain and she is only half way there.</h2>
             <div id="main" style="width:1200px; height:400px;"></div>
         </div>
 

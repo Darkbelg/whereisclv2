@@ -20,14 +20,13 @@ class HomeController extends Controller
                 ->get();
         });
 
-        //dd($events->toArray());
         $views = [];
-        foreach ($events as $event) {
-            $dates[] = "'" . $event->date . "'";
+        foreach (array_reverse($events->toArray()) as $event) {
+            $dates[] = "'" . $event["date"] . "'";
             $views[] = (array_sum($views) + array_sum(array_map(function($video){
 
                 return $video['views'];
-            },$event->toArray()['videos'])));
+            },$event['videos'])));
             
         }
         $views = implode("','", $views);
