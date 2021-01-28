@@ -21,18 +21,15 @@ class HomeController extends Controller
         });
 
         $views = [];
+        $points = [];
         foreach (array_reverse($events->toArray()) as $event) {
-            $dates[] = "'" . $event["date"] . "'";
-            $views[] = (end($views) ?: 0) + array_sum(array_map(function($video){
-
-                return $video['views'];
-            },$event['videos']));
+            foreach ($event["videos"] as $video) {
+                $points[] = "'" . $event["date"] . "'," . $video["views"];
+            }
+            
             
         }
-        //dd($views);
-        $views = implode("','", $views);
-        $dates = implode(",", $dates);
-
-        return view('overview', ['events' => $events, 'views' => $views, 'dates' => $dates]);
+        $points = implode("],[",$points);
+        return view('overview', ['events' => $events, 'points' => $points]);
     }
 }

@@ -15,18 +15,27 @@
 
         // specify chart configuration item and data
         var option = {
-       xAxis: {
-            type: 'category',
-            data: [{!! $dates !!}]
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: ['{!! $views !!}'],
-            type: 'line'
-        }]
-    };
+            xAxis: {
+                type: 'time',
+                boundaryGap: false
+            },
+            yAxis: {
+                type: 'value'
+            },
+            dataZoom: [{
+            type: 'inside',
+            start: 0,
+            end: 20
+            }, {
+                start: 0,
+                end: 20
+            }],
+            series: [{
+                data: [[{!! $points !!}]],
+                type: 'line',
+                areaStyle: {}
+            }]
+        };
 
         // use configuration item and data specified to show chart
         myChart.setOption(option);
