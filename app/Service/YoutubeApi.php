@@ -14,7 +14,7 @@ class YoutubeApi
     {
         $client = new Google_Client();
         $client->setApplicationName(env("YOUTUBE_API_NAME"));
-        $client->setDeveloperKey(env("YOUUTBE_API_KEY"));
+        $client->setDeveloperKey(env("YOUTUBE_API_KEY"));
 
         // Define service object for making API requests.
         $this->service = new Google_Service_YouTube($client);
