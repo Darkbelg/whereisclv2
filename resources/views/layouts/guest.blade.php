@@ -16,7 +16,6 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
-    <script src="js/echarts.min.js"></script>
 
 </head>
 

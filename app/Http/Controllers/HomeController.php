@@ -20,16 +20,6 @@ class HomeController extends Controller
                 ->get();
         });
 
-        $views = [];
-        $points = [];
-        foreach (array_reverse($events->toArray()) as $event) {
-            foreach ($event["videos"] as $video) {
-                $points[] = "'" . $event["date"] . "'," . $video["views"];
-            }
-            
-            
-        }
-        $points = implode("],[",$points);
-        return view('overview', ['events' => $events, 'points' => $points]);
+        return view('overview', ['events' => $events]);
     }
 }
