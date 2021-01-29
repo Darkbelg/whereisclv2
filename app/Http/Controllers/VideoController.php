@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Channel;
 use App\Models\Event;
-use Illuminate\Http\Request;
 use App\Models\Video;
 use App\Rules\EmptyArray;
 use App\Service\YoutubeApi;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class VideoController extends Controller
 {
@@ -73,7 +73,9 @@ class VideoController extends Controller
             }
 
             return redirect('/videos/');
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
+            Log::error($e);
+
             return redirect('/videos/')->with('status', 'Something went wrong saving all videos');
         }
     }

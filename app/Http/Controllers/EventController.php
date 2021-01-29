@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -123,7 +124,9 @@ class EventController extends Controller
             $event->delete();
 
             return redirect('/events');
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
+            Log::error($e);
+            
             return redirect('/events')->with('status', 'Unable to delete Event. Make sure all videos have been deleted before deleting the event.');
         }
     }
