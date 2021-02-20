@@ -43,7 +43,7 @@ class Event extends Model
         'longitude'
     ];
 
-    protected $dates=[
+    protected $dates = [
         'created_at',
         'updated_at',
         'date'
@@ -54,6 +54,6 @@ class Event extends Model
      */
     public function videos()
     {
-        return $this->belongsToMany('App\Models\Video','events_videos');
+        return $this->belongsToMany('App\Models\Video', 'events_videos');
     }
 }

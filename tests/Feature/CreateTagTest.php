@@ -19,10 +19,10 @@ class CreateTagTest extends TestCase
      */
     public function test_tag_creation()
     {
-        $tags = Tag::factory()->create(['id' => 1,'tag' => 'cl' ]);
-        $tag = $tags->toArray(); 
+        $tags = Tag::factory()->create(['id' => 1, 'tag' => 'cl']);
+        $tag = $tags->toArray();
 
-        $this->assertEquals(1,$tag["id"]);
-        $this->assertEquals("cl",$tag["tag"]);
+        $this->assertEquals(1, $tag["id"]);
+        $this->assertEquals("cl", $tag["tag"]);
     }
 }

@@ -19,10 +19,9 @@ class RefreshController extends Controller
     {
         try {
             Refresh::all($this->youtubeApi);
-
             return redirect('/');
         } catch (\Throwable $th) {
-            return redirect('/dashboard')->with('status','Refresh failed');
+            return redirect('/dashboard')->with('status', 'Refresh failed');
         }
 
     }
