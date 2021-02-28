@@ -28,8 +28,6 @@ class HomeController extends Controller
             foreach ($event["videos"] as $video) {
                 $points[] = "'" . $event["date"] . "'," . $video["views"];
             }
-
-
         }
         $points = implode("],[", $points);
         return view('overview', ['events' => $events, 'points' => $points]);

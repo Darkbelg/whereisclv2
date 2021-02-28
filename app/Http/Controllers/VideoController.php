@@ -90,29 +90,6 @@ class VideoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        throw new Exception("Video info can not be updated");
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id)
-    {
-        throw new Exception("Video info can not be updated");
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param int $id
