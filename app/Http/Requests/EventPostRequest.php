@@ -31,4 +31,13 @@ class EventPostRequest extends FormRequest
             'longitude' => 'required|between:-180,180'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'latitude.between' => 'Latitude has to be between -85 and 85.',
+            'longitude.between' => 'longitude has to be between -180 and 180.'
+        ];
+    }
+
 }
