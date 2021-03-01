@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoPostRequest;
 use App\Models\Channel;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -57,17 +58,12 @@ class VideoController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(VideoPostRequest $request)
     {
-        request()->validate([
-            'youtube' => new EmptyArray,
-            'event' => 'required'
-        ]);
-
         try {
-            $event = Event::find(request('event'));
+            $event = Event::find($request->event);
 
-            foreach (array_filter(request('youtube')) as $youtubeId) {
+            foreach (array_filter($request->youtube) as $youtubeId) {
                 $this->storeOneVideo($youtubeId, $event);
             }
 

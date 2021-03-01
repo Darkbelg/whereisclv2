@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventPostRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -35,22 +36,14 @@ class EventController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventPostRequest $request)
     {
-        request()->validate([
-            'title' => 'required|max:255',
-            'date' => 'required|date',
-            'location' => 'max:255',
-            'latitude' => 'required|between:-85,85',
-            'longitude' => 'required|between:-180,180'
-        ]);
-
         $event = Event::create([
-            'title' => request('title'),
-            'date' => request('date'),
-            'location' => request('location'),
-            'latitude' => request('latitude'),
-            'longitude' => request('longitude')
+            'title' => $request->title,
+            'date' => $request->date,
+            'location' => $request->location,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude
         ]);
 
         return redirect('/events/' . $event->id);
@@ -85,22 +78,14 @@ class EventController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Event $event)
+    public function update(Event $event, EventPostRequest $request)
     {
-        request()->validate([
-            'title' => 'required|max:255',
-            'date' => 'required|date',
-            'location' => 'max:255',
-            'latitude' => 'required|between:-85,85',
-            'longitude' => 'required|between:-180,180'
-        ]);
-
         $event->update([
-            'title' => request('title'),
-            'date' => request('date'),
-            'location' => request('location'),
-            'latitude' => request('latitude'),
-            'longitude' => request('longitude')
+            'title' => $request->title,
+            'date' => $request->date,
+            'location' => $request->location,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude
         ]);
 
         return redirect('/events/' . $event->id);

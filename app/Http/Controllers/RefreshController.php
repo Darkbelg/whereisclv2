@@ -12,7 +12,6 @@ class RefreshController extends Controller
     public function __construct(YoutubeApi $youtubeApi)
     {
         $this->youtubeApi = $youtubeApi;
-        $this->middleware('auth');
     }
 
     public function refreshAll()

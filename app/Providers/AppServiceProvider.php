@@ -3,9 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Event;
+
 use App\Service\YoutubeApi;
-use Google_Client;
-use Google_Service_YouTube;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -19,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        
+        $this->app->singleton(YoutubeApi::class, function (){
+           return new YoutubeApi();
+        });
     }
 
     /**
