@@ -25,11 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function ()
-        {
-            Refresh::all(app(\App\Service\YoutubeApi::class));
-        })->weekly();
-        
+        $schedule->command('youtube:refresh')->weekly();
     }
 
     /**
