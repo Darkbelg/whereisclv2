@@ -6,7 +6,8 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                serif: ['Lobster', ...defaultTheme.fontFamily.serif],
+                sans: ['Roboto', ...defaultTheme.fontFamily.sans],
             },
         },
     },
