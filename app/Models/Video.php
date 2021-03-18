@@ -5,6 +5,43 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Models\Video
+ *
+ * @property string $id
+ * @property string $channel_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $published_at
+ * @property string $title
+ * @property string $description
+ * @property int $comments
+ * @property int $dislikes
+ * @property int $likes
+ * @property int $views
+ * @property-read \App\Models\Channel $channel
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
+ * @property-read int|null $events_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Tag[] $tags
+ * @property-read int|null $tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Thumbnail[] $thumbnails
+ * @property-read int|null $thumbnails_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Video newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Video newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Video query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereChannelId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereComments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereDislikes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereLikes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereViews($value)
+ * @mixin \Eloquent
+ */
 class Video extends Model
 {
     use HasFactory;

@@ -20,14 +20,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'show']);
 
-Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);
-Route::get('refresh', [RefreshController::class, 'refreshAll'])->name('refresh');
-Route::resource('videos', VideoController::class);
+Route::middleware(['auth'])->group(function (){
+    Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);
+    Route::get('refresh', [RefreshController::class, 'refreshAll'])->name('refresh');
+    Route::resource('videos', VideoController::class)->except('edit','update');
 
-Route::resource('events', EventController::class);
+    Route::resource('events', EventController::class);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
 
 require __DIR__ . '/auth.php';

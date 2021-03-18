@@ -92,7 +92,10 @@ class CreateVideoTest extends TestCase
             );
         });
 
-        $response = $this->withoutExceptionHandling()->post('/videos', ["youtube" => [$videoIdFirst,$videoIdSecond,$videoIdThird,null,null,null,null,null,null,null], "event" => $event->id]);
+        $response = $this->withoutExceptionHandling()->post('/videos', [
+            "youtube" => [$videoIdFirst, $videoIdSecond, $videoIdThird, null, null, null, null, null, null, null],
+            "event" => $event->id
+        ]);
 
         $this->assertEquals('3', Video::All()->count());
     }

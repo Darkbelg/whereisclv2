@@ -16,7 +16,7 @@ class RefreshTest extends TestCase
     public function test_guests_may_not_refresh()
     {
         $this->get('/refresh')
-        ->assertRedirect('/login');
+            ->assertRedirect('/login');
     }
 
     public function test_an_authenticated_user_can_refresh_all_video_data()

@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EventPostRequest;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Display a listing of the resource.
@@ -38,25 +33,17 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(EventPostRequest $request)
     {
-        request()->validate([
-            'title' => 'required|max:255',
-            'date' => 'required|date',
-            'location' => 'max:255',
-            'latitude' => 'required|between:-85,85',
-            'longitude' => 'required|between:-180,180'
-        ]);
-
         $event = Event::create([
-            'title' => request('title'),
-            'date' => request('date'),
-            'location' => request('location'),
-            'latitude' => request('latitude'),
-            'longitude' => request('longitude')
+            'title' => $request->title,
+            'date' => $request->date,
+            'location' => $request->location,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude
         ]);
 
         return redirect('/events/' . $event->id);
@@ -65,7 +52,7 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Event $event)
@@ -76,7 +63,7 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(Event $event)
@@ -87,26 +74,18 @@ class EventController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Event $event)
+    public function update(Event $event, EventPostRequest $request)
     {
-        request()->validate([
-            'title' => 'required|max:255',
-            'date' => 'required|date',
-            'location' => 'max:255',
-            'latitude' => 'required|between:-85,85',
-            'longitude' => 'required|between:-180,180'
-        ]);
-
         $event->update([
-            'title' => request('title'),
-            'date' => request('date'),
-            'location' => request('location'),
-            'latitude' => request('latitude'),
-            'longitude' => request('longitude')
+            'title' => $request->title,
+            'date' => $request->date,
+            'location' => $request->location,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude
         ]);
 
         return redirect('/events/' . $event->id);
@@ -115,7 +94,7 @@ class EventController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Event $event)
@@ -124,10 +103,9 @@ class EventController extends Controller
             $event->delete();
 
             return redirect('/events');
-        } catch (\Exception $e) {
-            Log::error($e);
-            
-            return redirect('/events')->with('status', 'Unable to delete Event. Make sure all videos have been deleted before deleting the event.');
+        } catch (\Exception $th) {
+            return redirect('/events')->with('status',
+                'Unable to delete Event. Make sure all videos have been deleted before deleting the event.');
         }
     }
 }

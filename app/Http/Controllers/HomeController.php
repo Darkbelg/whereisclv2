@@ -12,14 +12,24 @@ class HomeController extends Controller
     {
         $events = Cache::rememberForever('events', function () {
             return Event::with(
-                ['videos' => function ($query) {
-                    $query->orderBy('views', 'DESC');
-                }]
+                [
+                    'videos' => function ($query) {
+                        $query->orderBy('views', 'DESC');
+                    }
+                ]
             )
                 ->orderBy('date', 'desc')
                 ->get();
         });
 
-        return view('overview', ['events' => $events]);
+        $views = [];
+        $points = [];
+        foreach (array_reverse($events->toArray()) as $event) {
+            foreach ($event["videos"] as $video) {
+                $points[] = "'" . $event["date"] . "'," . $video["views"];
+            }
+        }
+        $points = implode("],[", $points);
+        return view('overview', ['events' => $events, 'points' => $points]);
     }
 }

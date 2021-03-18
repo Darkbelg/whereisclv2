@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoPostRequest;
 use App\Models\Channel;
 use App\Models\Event;
 use App\Models\Video;
@@ -17,7 +18,6 @@ class VideoController extends Controller
     public function __construct(YoutubeApi $youtubeApi)
     {
         $this->youtubeApi = $youtubeApi;
-        $this->middleware('auth');
     }
 
     /*
@@ -55,20 +55,15 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(VideoPostRequest $request)
     {
-        request()->validate([
-            'youtube' => new EmptyArray,
-            'event' => 'required'
-        ]);
-
         try {
-            $event = Event::find(request('event'));
+            $event = Event::find($request->event);
 
-            foreach (array_filter(request('youtube')) as $youtubeId) {
+            foreach (array_filter($request->youtube) as $youtubeId) {
                 $this->storeOneVideo($youtubeId, $event);
             }
 
@@ -83,7 +78,7 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Video $video)
@@ -92,32 +87,9 @@ class VideoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        throw new Exception("Video info can not be updated");
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id)
-    {
-        throw new Exception("Video info can not be updated");
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Video $video)

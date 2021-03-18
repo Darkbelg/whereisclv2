@@ -5,6 +5,10 @@ namespace App\Service;
 use Google_Client;
 use Google_Service_YouTube;
 
+/**
+ * Class YoutubeApi
+ * @package App\Service
+ */
 class YoutubeApi
 {
 
@@ -13,8 +17,8 @@ class YoutubeApi
     public function __construct()
     {
         $client = new Google_Client();
-        $client->setApplicationName(env("YOUTUBE_API_NAME"));
-        $client->setDeveloperKey(env("YOUTUBE_API_KEY"));
+        $client->setApplicationName(config("youtube.api.name"));
+        $client->setDeveloperKey(config("youtube.api.key"));
 
         // Define service object for making API requests.
         $this->service = new Google_Service_YouTube($client);
