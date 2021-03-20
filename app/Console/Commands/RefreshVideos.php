@@ -38,8 +38,11 @@ class RefreshVideos extends Command
      */
     public function handle()
     {
-        Refresh::all(app(\App\Service\YoutubeApi::class));
-
-        return 0;
+        try {
+            Refresh::all(app(\App\Service\YoutubeApi::class));
+        } catch (\Exception $e){
+            $this->error('Something went wrong!');
+        }
+        $this->info('Youtube refresh has been executed.');
     }
 }

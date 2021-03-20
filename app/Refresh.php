@@ -25,7 +25,7 @@ class Refresh
 
             $video->updateTags($videoMetaDataSnippet["tags"])
                 ->updateThumbnails($videoMetaDataSnippet["thumbnails"])
-                ->save();
+                ->push();
         }
 
         Cache::flush();
