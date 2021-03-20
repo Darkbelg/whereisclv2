@@ -3,10 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Refresh;
+use App\Service\YoutubeApi;
 use Illuminate\Console\Command;
 
 class RefreshVideos extends Command
 {
+    private $youtubeApi;
+
     /**
      * The name and signature of the console command.
      *
@@ -24,10 +27,11 @@ class RefreshVideos extends Command
     /**
      * Create a new command instance.
      *
-     * @return void
+     * @param YoutubeApi $youtubeApi
      */
-    public function __construct()
+    public function __construct(YoutubeApi $youtubeApi)
     {
+        $this->youtubeApi = $youtubeApi;
         parent::__construct();
     }
 
@@ -39,10 +43,12 @@ class RefreshVideos extends Command
     public function handle()
     {
         try {
-            Refresh::all(app(\App\Service\YoutubeApi::class));
-        } catch (\Exception $e){
+            Refresh::all($this->youtubeApi);
+        } catch (\Exception $e) {
             $this->error('Something went wrong!');
+            return 1;
         }
         $this->info('Youtube refresh has been executed.');
+        return 0;
     }
 }
