@@ -21,6 +21,7 @@ class VideoResource extends JsonResource
             'channel_id' => $this->channel_id,
             'published_at' => $this->published_at,
             'title' => $this->title,
+            'url' => "https://www.youtube.com/watch?v=" . $this->id,
             'views' => number_format($this->views,0,","," "),
             'thumbnails' => ThumbnailResource::collection($this->thumbnails)
         ];

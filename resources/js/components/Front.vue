@@ -10,7 +10,7 @@
             <div class="lg:mt-2 flex flex-col sm:flex-row flex-wrap" v-if="event.videos">
                 <div class="flex flex-col sm:w-1/3 rounded-lg hover:bg-white" v-for="video in event.videos">
                     <div class="lg:m-3 mb-3">
-                        <a target="_blank" href="https://www.youtube.com/watch?v=" :href="video.id">
+                        <a target="_blank" :href="video.url">
                             <div v-for="thumbnail in video.thumbnails" v-if="thumbnail.size == 'high'">
                                 <img  :src="thumbnail.url" alt="" :width="thumbnail.width" :height="thumbnail.height">
                             </div>
