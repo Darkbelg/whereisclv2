@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [HomeController::class, 'show']);
+Route::view('/', 'overview');
 
 Route::middleware(['auth'])->group(function (){
     Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);

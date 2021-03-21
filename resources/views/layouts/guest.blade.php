@@ -17,8 +17,7 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}"></script>
-
+    <script src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
 <body class="bg-gradient-to-r from-red-700 to-red-600 font-sans text-grey-100 antialiased">
