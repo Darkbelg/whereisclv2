@@ -10,7 +10,6 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Roboto&display=swap" rel="stylesheet">
 
     <!-- Styles -->
@@ -21,12 +20,12 @@
 </head>
 
 <body class="bg-gradient-to-r from-red-700 to-red-600 font-sans text-grey-100 antialiased">
-    <div class="lg:w-1/2 m-auto mt-10 mb-2">
-        <x-title></x-title>
-    </div>
-    <div class="w-4/8 m-auto">
-        {{ $slot }}
-    </div>
+<div class="lg:w-1/2 m-auto mt-10 mb-2">
+    <x-title></x-title>
+</div>
+<div class="w-4/8 m-auto">
+    {{ $slot }}
+</div>
 </body>
 
 </html>

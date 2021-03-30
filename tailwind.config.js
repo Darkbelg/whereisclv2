@@ -17,7 +17,8 @@ module.exports = {
 
     variants: {
         extend: {
-            opacity: ['disabled']
+            opacity: ['disabled'],
+            animation: ['responsive', 'motion-safe', 'motion-reduce']
         },
     },
 
