@@ -12,11 +12,14 @@ use Illuminate\Support\Facades\Cache;
 class EventController extends Controller
 {
     /**
+     * @param Request $request
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request): AnonymousResourceCollection
     {
-        $events = Cache::rememberForever('events', function () {
+        $currentPage = $request->get('page',1);
+
+        $events = Cache::rememberForever('events-' . $currentPage, function () {
             return Event::with(
                 [
                     'videos' => function ($query) {
