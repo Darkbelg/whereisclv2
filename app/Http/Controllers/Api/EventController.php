@@ -12,8 +12,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = Cache::rememberForever('events', function () {
-            return Event::with(
+        $events = Event::with(
                 [
                     'videos' => function ($query) {
                         $query->orderBy('views', 'DESC');
@@ -21,8 +20,7 @@ class EventController extends Controller
                 ]
             )
                 ->orderBy('date', 'desc')
-                ->get();
-        });
+                ->paginate(3);
         return EventResource::collection($events);
     }
 }

@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display,400&family=Roboto,400&display=swap" rel="stylesheet">     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
     <!-- Scripts -->
-    <script src="{{ mix('js/app.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('js/app.js') }}" defer></script>
 </head>
 
 <body class="bg-gradient-to-r from-red-700 to-red-600 font-sans text-grey-100 antialiased">
@@ -23,6 +23,16 @@
 <div class="w-4/8 m-auto">
     {{ $slot }}
 </div>
+<footer class="grid sm:grid-cols-3 p-5 pl-10 bg-white rounded-lg">
+    <div>
+        <a class="link" href="http://support.operationsmile.org/site/TR?pg=fund&fr_id=1030&pxfid=39223">To
+            donate, simply smile.</a>
+    </div>
+    <div>Mail <a class="link" href="mailto:support@whereiscl.com">Support</a></div>
+    <div>
+        <a class="link" href="https://www.youtube.com/t/terms">YouTube ToS​</a>
+    </div>
+</footer>
 </body>
 
 </html>

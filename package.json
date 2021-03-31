@@ -25,5 +25,8 @@
         "vue": "^2.6.12",
         "vue-template-compiler": "^2.6.12"
     },
-    "name": "whereiscl"
+    "name": "whereiscl",
+    "dependencies": {
+        "vue-infinite-loading": "^2.4.5"
+    }
 }
