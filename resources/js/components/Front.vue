@@ -20,7 +20,7 @@
                     <div class="lg:m-3 mb-3">
                         <a target="_blank" rel="noopener" :href="video.url">
                             <div v-for="thumbnail in video.thumbnails" v-if="thumbnail.size == 'high'">
-                                <img :src="thumbnail.url" alt="" :width="thumbnail.width" :height="thumbnail.height">
+                                <img loading=lazy :src="thumbnail.url" alt="" :width="thumbnail.width" :height="thumbnail.height">
                             </div>
                             <div class="pl-2 justify-between">
                                 <div>
