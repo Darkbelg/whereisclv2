@@ -1,8 +1,8 @@
 <template>
     <div class="lg:w-8/12 m-auto">
-        <div class="bg-gray-100 lg:p-2 lg:p-10 mb-2 shadow-sm rounded-lg" v-for="(event, $index) in events"
+        <div class="bg-gray-100 lg:p-2 lg:p-10 mb-2 shadow-sm lg:rounded-lg" v-for="(event, $index) in events"
              :key="$index">
-            <div class="text-4xl leading-6 p-2 font-medium text-gray-900 lg:flex lg:justify-between">
+            <div class="text-4xl p-2 font-medium text-gray-900 lg:flex lg:justify-between">
                 <h1 class="font-serif">{{ event.title }}</h1>
                 <p class="text-sm text-right lg:left text-gray-700">{{ event.date }}</p>
             </div>
