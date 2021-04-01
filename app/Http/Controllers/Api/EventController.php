@@ -17,13 +17,20 @@ class EventController extends Controller
      */
     public function index(Request $request): AnonymousResourceCollection
     {
-        $currentPage = $request->get('page',1);
+        $currentPage = $request->get('page', 1);
 
         $events = Cache::rememberForever('events-' . $currentPage, function () {
             return Event::with(
                 [
                     'videos' => function ($query) {
-                        $query->orderBy('views', 'DESC');
+                        $query->without('tags')
+                            ->without('channel')
+                            ->with([
+                                'thumbnails' => function ($query) {
+                                    $query->where('size','high');
+                                }
+                            ])
+                            ->orderBy('views', 'DESC');
                     }
                 ]
             )

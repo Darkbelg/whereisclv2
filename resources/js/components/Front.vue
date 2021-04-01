@@ -12,7 +12,7 @@
                 <div class="flex flex-col sm:w-1/3 rounded-lg hover:bg-white" v-for="video in event.videos">
                     <div class="lg:m-3 mb-3">
                         <a target="_blank" rel="noopener" :href="video.url">
-                            <div v-for="thumbnail in video.thumbnails" v-if="thumbnail.size == 'high'">
+                            <div v-for="thumbnail in video.thumbnails">
                                 <img loading=lazy :src="thumbnail.url" alt="" :width="thumbnail.width"
                                      :height="thumbnail.height">
                             </div>
