@@ -11,11 +11,15 @@
 @font-face {
     font-family: Playfair Display;
     src: url('fonts/playfair-display-regular.ttf');
+    font-weight: 400;
+    font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: Roboto;
-    src: url('fonts/roboto-regular.ttf');
+    src: local('Roboto'), url('fonts/roboto-regular.ttf');
+    font-weight: 400;
+    font-style: normal;
     font-display: swap;
 }
 

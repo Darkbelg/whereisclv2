@@ -8,6 +8,10 @@
     <title>Where is CL ?</title>
     <meta name="description" content="See cl latest concerts on youtube. Cherry Picked Videos & Fancams.">
 
+    <!-- Fonts -->
+    <link rel="preload" as="font" href="fonts/playfair-display-regular.ttf" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" as="font" href="fonts/roboto-regular.ttf" type="font/ttf" crossorigin="anonymous">
+
     <!-- Style -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
