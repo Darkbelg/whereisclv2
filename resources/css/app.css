@@ -4,6 +4,16 @@
 
 @layer components {
     .link {
-        @apply hover:underline text-blue-600 hover:text-blue-800 
+        @apply hover:underline text-blue-600 hover:text-blue-800
     }
 }
+
+@font-face {
+    font-family: Playfair Display;
+    src: url('fonts/playfair-display-regular.ttf');
+}
+@font-face {
+    font-family: Roboto;
+    src: url('fonts/roboto-regular.ttf');
+}
+
