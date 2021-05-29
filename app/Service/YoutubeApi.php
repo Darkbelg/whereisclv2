@@ -33,6 +33,9 @@ class YoutubeApi
             'contentDetails,id,liveStreamingDetails,localizations,player,recordingDetails,snippet,statistics,status,topicDetails',
             $queryParams
         );
-        return $response["items"][0];
+        if(isset($response["items"][0])){
+            return $response["items"][0];
+        }
+        return false;
     }
 }

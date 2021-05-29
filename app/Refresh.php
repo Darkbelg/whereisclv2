@@ -13,6 +13,11 @@ class Refresh
         $videos = Video::All();
         foreach ($videos as $video) {
             $videoMetaData = $youtubeApi->getVideoMetaData($video->id);
+            if (!$videoMetaData){
+                $video->detach();
+                $video->delete();
+                continue;
+            }
             $videoMetaDataSnippet = $videoMetaData["snippet"];
             $videoMetaDataStatistics = $videoMetaData["statistics"];
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Service\YoutubeApi;
 use App\Refresh;
+use Illuminate\Support\Facades\Log;
+use function PHPUnit\Framework\throwException;
 
 class RefreshController extends Controller
 {
@@ -20,6 +22,8 @@ class RefreshController extends Controller
             Refresh::all($this->youtubeApi);
             return redirect('/');
         } catch (\Throwable $th) {
+            Log::error($th);
+            throwException($th);
             return redirect('/dashboard')->with('status', 'Refresh failed');
         }
 
