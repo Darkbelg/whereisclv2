@@ -14,8 +14,6 @@ class Refresh
         foreach ($videos as $video) {
             $videoMetaData = $youtubeApi->getVideoMetaData($video->id);
             if (!$videoMetaData){
-                $video->detach();
-                $video->delete();
                 continue;
             }
             $videoMetaDataSnippet = $videoMetaData["snippet"];

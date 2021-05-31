@@ -18,14 +18,7 @@ class RefreshController extends Controller
 
     public function refreshAll()
     {
-        try {
-            Refresh::all($this->youtubeApi);
-            return redirect('/');
-        } catch (\Throwable $th) {
-            Log::error($th);
-            throwException($th);
-            return redirect('/dashboard')->with('status', 'Refresh failed');
-        }
-
+        Refresh::all($this->youtubeApi);
+        return redirect('/');
     }
 }

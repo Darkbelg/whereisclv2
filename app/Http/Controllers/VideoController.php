@@ -27,6 +27,9 @@ class VideoController extends Controller
     public function getVideoMetaDataById($id)
     {
         $videoMetaData = $this->youtubeApi->getVideoMetaData($id);
+        if (!$videoMetaData){
+            return redirect('/dashboard')->with('status', 'Getting video meta data failed.');
+        }
 
         return view('videodata', ['response' => $videoMetaData]);
     }
@@ -103,6 +106,9 @@ class VideoController extends Controller
     public function storeOneVideo($youtubeId, $event)
     {
         $videoMetaData = $this->youtubeApi->getVideoMetaData($youtubeId);
+        if (!$videoMetaData) {
+            return;
+        }
         $videoMetaDataSnippet = $videoMetaData["snippet"];
         $videoMetaDataStatistics = $videoMetaData["statistics"];
 
