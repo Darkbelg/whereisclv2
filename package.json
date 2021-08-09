@@ -27,6 +27,8 @@
     },
     "name": "whereiscl",
     "dependencies": {
+        "mappa-mundi": "^0.0.5",
+        "p5": "^1.4.0",
         "vue-infinite-loading": "^2.4.5"
     }
 }

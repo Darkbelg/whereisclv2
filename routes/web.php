@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'overview');
+Route::view('/world-map', 'worldmap');
 
 Route::middleware(['auth'])->group(function (){
     Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);
