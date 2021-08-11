@@ -17,6 +17,8 @@
 
     <!-- Scripts -->
     <script type="text/javascript" src="{{ mix('js/app.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('js/manifest.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('js/vendor.js') }}" defer></script>
 
     <!-- Start Open Web Analytics Tracker -->
     <script type="text/javascript" defer>

@@ -12,12 +12,14 @@ require('laravel-mix-bundle-analyzer');
  */
 
 
-mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
+mix.js('resources/js/app.js', 'public/js').vue();
+
+mix.postCss('resources/css/app.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
 ]);
-// .extract(['vue']);
+mix.extract(['vue']);
 
 if (mix.inProduction()) {
     mix.version();
