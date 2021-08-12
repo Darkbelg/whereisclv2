@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-
+require('laravel-mix-bundle-analyzer');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -12,15 +12,20 @@ const mix = require('laravel-mix');
  */
 
 
-mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
+mix.js('resources/js/app.js', 'public/js').vue();
+
+mix.postCss('resources/css/app.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
 ]);
+mix.extract(['vue']);
 
 if (mix.inProduction()) {
     mix.version();
-}
+} else {
+    mix.bundleAnalyzer();
+};
 
 /*
 mix.postCss('resources/css/app.css', 'public/css', [

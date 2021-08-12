@@ -15,6 +15,8 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script type="text/javascript" src="{{ mix('js/manifest.js') }}" defer></script>
+        <script type="text/javascript" src="{{ mix('js/vendor.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

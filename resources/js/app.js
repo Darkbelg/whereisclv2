@@ -1,6 +1,6 @@
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue';
 window.P5 = require('p5');
 window.Mappa = require('mappa-mundi');
 
