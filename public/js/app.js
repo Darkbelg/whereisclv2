@@ -1955,6 +1955,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var p5__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(p5__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var mappa_mundi__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mappa-mundi */ "./node_modules/mappa-mundi/dist/mappa.js");
 /* harmony import */ var mappa_mundi__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mappa_mundi__WEBPACK_IMPORTED_MODULE_1__);
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 //
 //
 //
@@ -1965,7 +1979,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      events: []
+    };
+  },
   mounted: function mounted() {
+    var _this = this;
+
     var script = function script(P5) {
       var options = {
         lat: 0,
@@ -1975,7 +1996,20 @@ __webpack_require__.r(__webpack_exports__);
       };
       var mappa = new (mappa_mundi__WEBPACK_IMPORTED_MODULE_1___default())('Leaflet');
       var myMap;
-      var canvas; // These are your typical setup() and draw() methods
+      var canvas;
+
+      P5.preload = function () {
+        axios.get('/api/world-map-events', {}).then(function (_ref) {
+          var data = _ref.data;
+
+          if (data.data.length) {
+            var _this$events;
+
+            (_this$events = _this.events).push.apply(_this$events, _toConsumableArray(data.data));
+          }
+        });
+      }; // These are your typical setup() and draw() methods
+
 
       P5.setup = function () {
         canvas = P5.createCanvas(window.innerWidth / 12 * 8, window.innerHeight);
@@ -1986,6 +2020,22 @@ __webpack_require__.r(__webpack_exports__);
       P5.draw = function () {
         P5.clear();
         P5.ellipse(P5.mouseX, P5.mouseY, 40, 40);
+
+        var _iterator = _createForOfIteratorHelper(_this.events),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var event = _step.value;
+            var pix = myMap.latLngToPixel(Number(event['latitude']), Number(event['longitude']));
+            P5.ellipse(pix.x, pix.y, 10);
+            P5.text(event["title"], pix.x + 10, pix.y + 5);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
       };
     }; // Attach the canvas to the div
 
@@ -2012,6 +2062,9 @@ __webpack_require__.r(__webpack_exports__);
     //     };
     // }
     // const worldMapCanvas = new P5(worldMap, 'canvas');
+  },
+  methods: {
+    mapData: function mapData() {}
   }
 });
 
