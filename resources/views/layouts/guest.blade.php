@@ -43,6 +43,9 @@
 <body class="bg-gradient-to-r from-red-700 to-red-600 font-sans text-grey-100 antialiased">
 <div class="lg:w-1/2 m-auto mt-10 mb-2">
     <x-title></x-title>
+    <div>
+        <a href="/world-map">World-map</a>
+    </div>
 </div>
 <div class="w-4/8 m-auto">
     {{ $slot }}

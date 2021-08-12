@@ -6,6 +6,9 @@
     </div>
 </template>
 <script>
+import P5 from 'p5';
+import Mappa from 'mappa-mundi';
+
 export default {
     mounted() {
         const script = ( P5 ) => {
