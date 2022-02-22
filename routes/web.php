@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'overview');
+Route::view('/', 'overview')->name('home');
+Route::view('/privacy-policy', 'privacy-policy')->name('privacy-policy');
 
 Route::middleware(['auth'])->group(function (){
     Route::get('video/id/{id}', [VideoController::class, 'getVideoMetaDataById']);
