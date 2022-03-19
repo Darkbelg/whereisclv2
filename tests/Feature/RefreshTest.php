@@ -38,6 +38,8 @@ class RefreshTest extends TestCase
 
         $this->withoutExceptionHandling()->get("/refresh")->assertRedirect('/');
 
+        var_dump($videoDatabaseFirst->fresh()->tags);
+
         $this->assertEquals('45', count($videoDatabaseFirst->fresh()->tags));
         $this->assertEquals('3741389', $videoDatabaseFirst->fresh()->views);
 
