@@ -38,8 +38,6 @@ class RefreshTest extends TestCase
 
         $this->withoutExceptionHandling()->get("/refresh")->assertRedirect('/');
 
-        var_dump($videoDatabaseFirst->fresh()->tags);
-
         $this->assertEquals('45', count($videoDatabaseFirst->fresh()->tags));
         $this->assertEquals('3741389', $videoDatabaseFirst->fresh()->views);
 
@@ -48,6 +46,8 @@ class RefreshTest extends TestCase
 
         $this->assertEquals('45', count($videoDatabaseThird->fresh()->tags));
         $this->assertEquals('3000000', $videoDatabaseThird->fresh()->views);
+
+        $this->assertDatabaseCount('tags',180);
     }
 
     public function test_console_command(){
@@ -72,5 +72,7 @@ class RefreshTest extends TestCase
 
         $this->assertEquals('45', count($videoDatabaseThird->fresh()->tags));
         $this->assertEquals('3000000', $videoDatabaseThird->fresh()->views);
+
+        $this->assertDatabaseCount('tags',180);
     }
 }

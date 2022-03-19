@@ -107,10 +107,12 @@ class Video extends Model
         }
 
         foreach ((array)$newTags as $tag) {
-            $this->tags()->firstOrCreate([
+            $tagReturn = Tag::firstOrCreate([
                 "tag" => $tag
             ]);
+            $this->tags()->attach($tagReturn->id);
         }
+
         return $this;
     }
 
