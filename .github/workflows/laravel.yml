@@ -28,6 +28,9 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: show key
+         ## Reference your environment variables
+        run: echo "The API key is:${{secrets.YOUTUBE_API_NAME}}"
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
