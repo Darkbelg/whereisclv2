@@ -35,4 +35,6 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
+        YOUTUBE_API_KEY: ${{secrets.YOUTUBE_API_KEY}}
+        YOUTUBE_API_NAME: ${{secrets.YOUTUBE_API_NAME}}
       run: vendor/bin/phpunit
