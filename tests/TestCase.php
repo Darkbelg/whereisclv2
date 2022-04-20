@@ -266,10 +266,12 @@ abstract class TestCase extends BaseTestCase
         switch ($id) {
             case 'JeGhUESd_1o_2':
                 $youtubeVideoApiData["items"][0]["id"] = "JeGhUESd_1o_2";
+                $youtubeVideoApiData["items"][0]["snippet"]["channelTitle"] = "Mock CL Official Channel 1";
                 $youtubeVideoApiData["items"][0]["statistics"]["viewCount"] = "200000";
                 break;
             case 'JeGhUESd_1o_3':
                 $youtubeVideoApiData["items"][0]["id"] = "JeGhUESd_1o_3";
+                $youtubeVideoApiData["items"][0]["snippet"]["channelTitle"] = "Mock CL Official Channel 2";
                 $youtubeVideoApiData["items"][0]["statistics"]["viewCount"] = "3000000";
                 break;
             default:
