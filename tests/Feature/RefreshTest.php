@@ -46,6 +46,8 @@ class RefreshTest extends TestCase
 
         $this->assertEquals('45', count($videoDatabaseThird->fresh()->tags));
         $this->assertEquals('3000000', $videoDatabaseThird->fresh()->views);
+
+        $this->assertDatabaseCount('tags',180);
     }
 
     public function test_console_command(){
@@ -70,5 +72,7 @@ class RefreshTest extends TestCase
 
         $this->assertEquals('45', count($videoDatabaseThird->fresh()->tags));
         $this->assertEquals('3000000', $videoDatabaseThird->fresh()->views);
+
+        $this->assertDatabaseCount('tags',180);
     }
 }

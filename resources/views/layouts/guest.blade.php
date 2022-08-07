@@ -49,15 +49,22 @@
 </div>
 <div class="w-4/8 m-auto">
     {{ $slot }}
-    <div class="lg:w-8/12 m-auto">
-        <footer class="grid sm:grid-cols-3 p-5 pl-10 bg-white rounded-lg">
+    <div class="fixed bottom-0 right-0">
+        <footer class="grid p-5 pl-10 bg-gray-100 rounded-tl-lg text-right">
             <div>
                 <a class="link" href="http://support.operationsmile.org/site/TR?pg=fund&fr_id=1030&pxfid=39223">To
-                    donate, simply smile.</a>
+                    donate, simply smile.
+                </a>
             </div>
             <div>Mail <a class="link" href="mailto:support@whereiscl.com">Support</a></div>
             <div>
-                <a class="link" href="https://www.youtube.com/t/terms">YouTube ToS</a>
+                @if(request()->routeIs('privacy-policy'))
+                    {{ __('Privacy Policy') }}
+                @else
+                    <a href="{{ route('privacy-policy')  }}" class="link">
+                        {{ __('Privacy Policy') }}
+                    </a>
+                @endif
             </div>
         </footer>
     </div>

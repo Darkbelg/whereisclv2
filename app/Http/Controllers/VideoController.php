@@ -112,10 +112,14 @@ class VideoController extends Controller
         $videoMetaDataSnippet = $videoMetaData["snippet"];
         $videoMetaDataStatistics = $videoMetaData["statistics"];
 
-        $channel = Channel::firstOrCreate([
-            'id' => $videoMetaDataSnippet['channelId'],
-            'title' => $videoMetaDataSnippet['channelTitle']
-        ]);
+        $channel = Channel::find($videoMetaDataSnippet['channelId']);
+
+        if ($channel === null) {
+            $channel = Channel::create([
+                'id' => $videoMetaDataSnippet['channelId'],
+                'title' => $videoMetaDataSnippet['channelTitle']
+            ]);
+        }
 
         $video = $channel->videos()->create([
             "id" => $youtubeId,
