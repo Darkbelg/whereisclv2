@@ -19,6 +19,25 @@
     <script type="text/javascript" src="{{ mix('js/app.js') }}" defer></script>
     <script type="text/javascript" src="{{ mix('js/manifest.js') }}" defer></script>
     <script type="text/javascript" src="{{ mix('js/vendor.js') }}" defer></script>
+
+    <!-- Start Open Web Analytics Tracker -->
+    <script type="text/javascript" defer>
+        //<![CDATA[
+        var owa_baseUrl = 'https://analytics.whereiscl.com/';
+        var owa_cmds = owa_cmds || [];
+        owa_cmds.push(['setSiteId', 'e1bacd0c2a5934d9c1a3205b9dc8e8bf']);
+        owa_cmds.push(['trackPageView']);
+        owa_cmds.push(['trackClicks']);
+
+        (function() {
+            var _owa = document.createElement('script'); _owa.type = 'text/javascript'; _owa.async = true;
+            owa_baseUrl = ('https:' == document.location.protocol ? window.owa_baseSecUrl || owa_baseUrl.replace(/http:/, 'https:') : owa_baseUrl );
+            _owa.src = owa_baseUrl + 'modules/base/js/owa.tracker-combined-min.js';
+            var _owa_s = document.getElementsByTagName('script')[0]; _owa_s.parentNode.insertBefore(_owa, _owa_s);
+        }());
+        //]]>
+    </script>
+    <!-- End Open Web Analytics Code -->
 </head>
 
 <body class="bg-gradient-to-r from-red-700 to-red-600 font-sans text-grey-100 antialiased">
