@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Refresh;
 use App\Service\YoutubeApi;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RefreshVideos extends Command
 {
@@ -45,6 +47,12 @@ class RefreshVideos extends Command
         try {
             Refresh::all($this->youtubeApi);
         } catch (\Exception $e) {
+            $verbosityLevel = $this->getOutput()->getVerbosity();
+
+            if($verbosityLevel >= OutputInterface::VERBOSITY_VERBOSE){
+                $this->error($e->getMessage());
+            }
+            Log::error($e);
             $this->error('Something went wrong!');
             return 1;
         }
