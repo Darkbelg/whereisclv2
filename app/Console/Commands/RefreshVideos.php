@@ -47,16 +47,12 @@ class RefreshVideos extends Command
         try {
             Refresh::all($this->youtubeApi);
         } catch (\Exception $e) {
-            $verbosityLevel = $this->getOutput()->getVerbosity();
-
-            if($verbosityLevel >= OutputInterface::VERBOSITY_VERBOSE){
-                $this->error($e->getMessage());
-            }
+            $this->error($e->getMessage(), OutputInterface::OUTPUT_NORMAL);
             Log::error($e);
-            $this->error('Something went wrong!');
+            $this->error('Something went wrong!', OutputInterface::OUTPUT_NORMAL);
             return 1;
         }
-        $this->info('Youtube refresh has been executed.');
+        $this->info('Youtube refresh has been executed.', OutputInterface::OUTPUT_NORMAL);
         return 0;
     }
 }
