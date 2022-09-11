@@ -74,19 +74,45 @@ class VideoResource extends Resource
     {
         return [
             Tables\Columns\TextColumn::make('channel_id'),
-            Tables\Columns\TextColumn::make('id'),
+
+            Tables\Columns\TextColumn::make('id')
+                ->searchable(),
+
             Tables\Columns\TextColumn::make('created_at')
-                ->dateTime(),
+                ->dateTime()
+                ->sortable(),
+
             Tables\Columns\TextColumn::make('updated_at')
                 ->dateTime(),
+
             Tables\Columns\TextColumn::make('published_at')
                 ->dateTime(),
-            Tables\Columns\TextColumn::make('title'),
-            Tables\Columns\TextColumn::make('description')->limit(50),
+
+            Tables\Columns\TextColumn::make('title')
+                ->searchable(),
+
+            Tables\Columns\TextColumn::make('description')
+                ->limit(50)
+                ->searchable(),
+
             Tables\Columns\TextColumn::make('comments'),
+
             Tables\Columns\TextColumn::make('dislikes'),
+
             Tables\Columns\TextColumn::make('likes'),
+
             Tables\Columns\TextColumn::make('views'),
+
         ];
+    }
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'created_at';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
     }
 }
