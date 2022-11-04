@@ -54,7 +54,7 @@ class VideoResource extends Resource
             Forms\Components\TextInput::make('channel_id')
                 ->disabled(),
             Forms\Components\TextInput::make('id')
-                ->disabled(),
+                ->required(),
             Forms\Components\TextInput::make('title')
                 ->disabled(),
             Forms\Components\Textarea::make('description')
